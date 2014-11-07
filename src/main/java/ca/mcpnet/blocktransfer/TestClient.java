@@ -1,5 +1,9 @@
 package ca.mcpnet.blocktransfer;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -21,8 +25,13 @@ public class TestClient {
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
-			String resp = client.getVersion();
-			System.out.println(resp);
+			String ver = client.getVersion();
+			System.out.println(ver);
+			Map<Integer, String> blockidmap = client.getBlockIdMap();
+			for (Iterator<Entry<Integer, String>> bitr = blockidmap.entrySet().iterator();bitr.hasNext();) {
+				Entry<Integer, String> block = bitr.next();
+				System.out.println(block.getKey() + "->" + block.getValue());
+			}
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

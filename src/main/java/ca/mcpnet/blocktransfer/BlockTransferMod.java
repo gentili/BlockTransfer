@@ -1,5 +1,10 @@
 package ca.mcpnet.blocktransfer;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.logging.log4j.Logger;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.transport.TFramedTransport;
@@ -16,6 +21,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -31,12 +38,41 @@ public class BlockTransferMod
     @Instance(value = BlockTransferMod.MODID)
     public static BlockTransferMod instance;
     
+	public static Logger log;
+
 	private Thread BTserverthread;
 	private TBlockTransferServer BTserver;
+	private Map<Integer, String> blockidmap;
+	
+	public Map<Integer, String> getBlockIdMap() {
+		return blockidmap;
+	}
+	
+	/*
+	 * The following are Forge and FML specific methods
+	 */
+
+	@EventHandler
+	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
+		log = e.getModLog();
+	}
+	
+	@EventHandler
+	public void onFMLPostInitializationEvent(FMLPostInitializationEvent e) {
+		// Build the block mapping list
+		blockidmap = new HashMap<Integer, String>();
+		for (Iterator bitr = Block.blockRegistry.iterator();bitr.hasNext();) {
+			Block block = (Block) bitr.next();
+			String blockname = Block.blockRegistry.getNameForObject(block);
+			int blockid = Block.blockRegistry.getIDForObject(block);
+			log.info("Adding map " + blockid + "->" + blockname);
+			blockidmap.put(blockid, blockname);
+		}
+	}
         
     @EventHandler
     public void onFMLServerStartedEvent(FMLServerStartedEvent e) {
-    	System.out.println("Starting BlockTransfer server on port 9090");
+    	log.info("Starting BlockTransfer server on port 9090");
     	
 		BlockTransferServiceHandler handler = new BlockTransferServiceHandler();
 		Processor processor = new BlockTransferService.Processor(handler);
@@ -64,7 +100,7 @@ public class BlockTransferMod
     
     @EventHandler
     public void onFMLServerStoppingEvent(FMLServerStoppingEvent e) {
-    	System.out.println("Stoping BlockTransfer server");
+    	log.info("Stopping BlockTransfer server");
     	MinecraftForge.EVENT_BUS.unregister(this);
         FMLCommonHandler.instance().bus().unregister(this);
         BTserver.stop();

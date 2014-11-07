@@ -1,6 +1,7 @@
 package ca.mcpnet.blocktransfer;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,6 +32,11 @@ public class TestClient {
 			for (Iterator<Entry<Integer, String>> bitr = blockidmap.entrySet().iterator();bitr.hasNext();) {
 				Entry<Integer, String> block = bitr.next();
 				System.out.println(block.getKey() + "->" + block.getValue());
+			}
+			List<BTPlayer> playerlist = client.getPlayerList();
+			for (Iterator<BTPlayer> pitr = playerlist.iterator();pitr.hasNext();) {
+				BTPlayer player = pitr.next();
+				System.out.println(player);
 			}
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block

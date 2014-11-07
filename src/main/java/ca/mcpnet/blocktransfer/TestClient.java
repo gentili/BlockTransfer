@@ -10,7 +10,7 @@ import org.apache.thrift.transport.TTransportException;
 
 import ca.mcpnet.blocktransfer.BlockTransferService.Client;
 
-public class ThriftTestClient {
+public class TestClient {
 
 	public static void main(String[] args) {
 		TTransport transport;
@@ -18,11 +18,10 @@ public class ThriftTestClient {
 		try {
 			transport = new TFramedTransport(new TSocket("localhost",9090));
 			transport.open();
-			
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
-			String resp = client.echo("Hey there!");
+			String resp = client.getVersion();
 			System.out.println(resp);
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block

@@ -34,17 +34,13 @@ public class BlockTransferService {
 
   public interface Iface {
 
-    public void ping() throws org.apache.thrift.TException;
-
-    public String echo(String message) throws org.apache.thrift.TException;
+    public String getVersion() throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void ping(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.ping_call> resultHandler) throws org.apache.thrift.TException;
-
-    public void echo(String message, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.echo_call> resultHandler) throws org.apache.thrift.TException;
+    public void getVersion(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getVersion_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -68,46 +64,26 @@ public class BlockTransferService {
       super(iprot, oprot);
     }
 
-    public void ping() throws org.apache.thrift.TException
+    public String getVersion() throws org.apache.thrift.TException
     {
-      send_ping();
-      recv_ping();
+      send_getVersion();
+      return recv_getVersion();
     }
 
-    public void send_ping() throws org.apache.thrift.TException
+    public void send_getVersion() throws org.apache.thrift.TException
     {
-      ping_args args = new ping_args();
-      sendBase("ping", args);
+      getVersion_args args = new getVersion_args();
+      sendBase("getVersion", args);
     }
 
-    public void recv_ping() throws org.apache.thrift.TException
+    public String recv_getVersion() throws org.apache.thrift.TException
     {
-      ping_result result = new ping_result();
-      receiveBase(result, "ping");
-      return;
-    }
-
-    public String echo(String message) throws org.apache.thrift.TException
-    {
-      send_echo(message);
-      return recv_echo();
-    }
-
-    public void send_echo(String message) throws org.apache.thrift.TException
-    {
-      echo_args args = new echo_args();
-      args.setMessage(message);
-      sendBase("echo", args);
-    }
-
-    public String recv_echo() throws org.apache.thrift.TException
-    {
-      echo_result result = new echo_result();
-      receiveBase(result, "echo");
+      getVersion_result result = new getVersion_result();
+      receiveBase(result, "getVersion");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "echo failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getVersion failed: unknown result");
     }
 
   }
@@ -128,53 +104,21 @@ public class BlockTransferService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void ping(org.apache.thrift.async.AsyncMethodCallback<ping_call> resultHandler) throws org.apache.thrift.TException {
+    public void getVersion(org.apache.thrift.async.AsyncMethodCallback<getVersion_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ping_call method_call = new ping_call(resultHandler, this, ___protocolFactory, ___transport);
+      getVersion_call method_call = new getVersion_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class ping_call extends org.apache.thrift.async.TAsyncMethodCall {
-      public ping_call(org.apache.thrift.async.AsyncMethodCallback<ping_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class getVersion_call extends org.apache.thrift.async.TAsyncMethodCall {
+      public getVersion_call(org.apache.thrift.async.AsyncMethodCallback<getVersion_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ping", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        ping_args args = new ping_args();
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      public void getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new IllegalStateException("Method call not finished!");
-        }
-        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_ping();
-      }
-    }
-
-    public void echo(String message, org.apache.thrift.async.AsyncMethodCallback<echo_call> resultHandler) throws org.apache.thrift.TException {
-      checkReady();
-      echo_call method_call = new echo_call(message, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class echo_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private String message;
-      public echo_call(String message, org.apache.thrift.async.AsyncMethodCallback<echo_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.message = message;
-      }
-
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("echo", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        echo_args args = new echo_args();
-        args.setMessage(message);
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getVersion", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        getVersion_args args = new getVersion_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -185,7 +129,7 @@ public class BlockTransferService {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_echo();
+        return (new Client(prot)).recv_getVersion();
       }
     }
 
@@ -202,61 +146,40 @@ public class BlockTransferService {
     }
 
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
-      processMap.put("ping", new ping());
-      processMap.put("echo", new echo());
+      processMap.put("getVersion", new getVersion());
       return processMap;
     }
 
-    public static class ping<I extends Iface> extends org.apache.thrift.ProcessFunction<I, ping_args> {
-      public ping() {
-        super("ping");
+    public static class getVersion<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getVersion_args> {
+      public getVersion() {
+        super("getVersion");
       }
 
-      public ping_args getEmptyArgsInstance() {
-        return new ping_args();
-      }
-
-      protected boolean isOneway() {
-        return false;
-      }
-
-      public ping_result getResult(I iface, ping_args args) throws org.apache.thrift.TException {
-        ping_result result = new ping_result();
-        iface.ping();
-        return result;
-      }
-    }
-
-    public static class echo<I extends Iface> extends org.apache.thrift.ProcessFunction<I, echo_args> {
-      public echo() {
-        super("echo");
-      }
-
-      public echo_args getEmptyArgsInstance() {
-        return new echo_args();
+      public getVersion_args getEmptyArgsInstance() {
+        return new getVersion_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public echo_result getResult(I iface, echo_args args) throws org.apache.thrift.TException {
-        echo_result result = new echo_result();
-        result.success = iface.echo(args.message);
+      public getVersion_result getResult(I iface, getVersion_args args) throws org.apache.thrift.TException {
+        getVersion_result result = new getVersion_result();
+        result.success = iface.getVersion();
         return result;
       }
     }
 
   }
 
-  public static class ping_args implements org.apache.thrift.TBase<ping_args, ping_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ping_args");
+  public static class getVersion_args implements org.apache.thrift.TBase<getVersion_args, getVersion_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getVersion_args");
 
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new ping_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new ping_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new getVersion_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new getVersion_argsTupleSchemeFactory());
     }
 
 
@@ -319,20 +242,20 @@ public class BlockTransferService {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ping_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getVersion_args.class, metaDataMap);
     }
 
-    public ping_args() {
+    public getVersion_args() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public ping_args(ping_args other) {
+    public getVersion_args(getVersion_args other) {
     }
 
-    public ping_args deepCopy() {
-      return new ping_args(this);
+    public getVersion_args deepCopy() {
+      return new getVersion_args(this);
     }
 
     @Override
@@ -365,12 +288,12 @@ public class BlockTransferService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof ping_args)
-        return this.equals((ping_args)that);
+      if (that instanceof getVersion_args)
+        return this.equals((getVersion_args)that);
       return false;
     }
 
-    public boolean equals(ping_args that) {
+    public boolean equals(getVersion_args that) {
       if (that == null)
         return false;
 
@@ -382,13 +305,13 @@ public class BlockTransferService {
       return 0;
     }
 
-    public int compareTo(ping_args other) {
+    public int compareTo(getVersion_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      ping_args typedOther = (ping_args)other;
+      getVersion_args typedOther = (getVersion_args)other;
 
       return 0;
     }
@@ -407,7 +330,7 @@ public class BlockTransferService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("ping_args(");
+      StringBuilder sb = new StringBuilder("getVersion_args(");
       boolean first = true;
 
       sb.append(")");
@@ -435,15 +358,15 @@ public class BlockTransferService {
       }
     }
 
-    private static class ping_argsStandardSchemeFactory implements SchemeFactory {
-      public ping_argsStandardScheme getScheme() {
-        return new ping_argsStandardScheme();
+    private static class getVersion_argsStandardSchemeFactory implements SchemeFactory {
+      public getVersion_argsStandardScheme getScheme() {
+        return new getVersion_argsStandardScheme();
       }
     }
 
-    private static class ping_argsStandardScheme extends StandardScheme<ping_args> {
+    private static class getVersion_argsStandardScheme extends StandardScheme<getVersion_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, ping_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getVersion_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -464,7 +387,7 @@ public class BlockTransferService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, ping_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getVersion_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -474,636 +397,36 @@ public class BlockTransferService {
 
     }
 
-    private static class ping_argsTupleSchemeFactory implements SchemeFactory {
-      public ping_argsTupleScheme getScheme() {
-        return new ping_argsTupleScheme();
+    private static class getVersion_argsTupleSchemeFactory implements SchemeFactory {
+      public getVersion_argsTupleScheme getScheme() {
+        return new getVersion_argsTupleScheme();
       }
     }
 
-    private static class ping_argsTupleScheme extends TupleScheme<ping_args> {
+    private static class getVersion_argsTupleScheme extends TupleScheme<getVersion_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, getVersion_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, ping_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, getVersion_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
     }
 
   }
 
-  public static class ping_result implements org.apache.thrift.TBase<ping_result, ping_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ping_result");
-
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new ping_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new ping_resultTupleSchemeFactory());
-    }
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ping_result.class, metaDataMap);
-    }
-
-    public ping_result() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public ping_result(ping_result other) {
-    }
-
-    public ping_result deepCopy() {
-      return new ping_result(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof ping_result)
-        return this.equals((ping_result)that);
-      return false;
-    }
-
-    public boolean equals(ping_result that) {
-      if (that == null)
-        return false;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    public int compareTo(ping_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-      ping_result typedOther = (ping_result)other;
-
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-      }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("ping_result(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class ping_resultStandardSchemeFactory implements SchemeFactory {
-      public ping_resultStandardScheme getScheme() {
-        return new ping_resultStandardScheme();
-      }
-    }
-
-    private static class ping_resultStandardScheme extends StandardScheme<ping_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, ping_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, ping_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class ping_resultTupleSchemeFactory implements SchemeFactory {
-      public ping_resultTupleScheme getScheme() {
-        return new ping_resultTupleScheme();
-      }
-    }
-
-    private static class ping_resultTupleScheme extends TupleScheme<ping_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, ping_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-      }
-    }
-
-  }
-
-  public static class echo_args implements org.apache.thrift.TBase<echo_args, echo_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("echo_args");
-
-    private static final org.apache.thrift.protocol.TField MESSAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("message", org.apache.thrift.protocol.TType.STRING, (short)-1);
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new echo_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new echo_argsTupleSchemeFactory());
-    }
-
-    public String message; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      MESSAGE((short)-1, "message");
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case -1: // MESSAGE
-            return MESSAGE;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.MESSAGE, new org.apache.thrift.meta_data.FieldMetaData("message", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(echo_args.class, metaDataMap);
-    }
-
-    public echo_args() {
-    }
-
-    public echo_args(
-      String message)
-    {
-      this();
-      this.message = message;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public echo_args(echo_args other) {
-      if (other.isSetMessage()) {
-        this.message = other.message;
-      }
-    }
-
-    public echo_args deepCopy() {
-      return new echo_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.message = null;
-    }
-
-    public String getMessage() {
-      return this.message;
-    }
-
-    public echo_args setMessage(String message) {
-      this.message = message;
-      return this;
-    }
-
-    public void unsetMessage() {
-      this.message = null;
-    }
-
-    /** Returns true if field message is set (has been assigned a value) and false otherwise */
-    public boolean isSetMessage() {
-      return this.message != null;
-    }
-
-    public void setMessageIsSet(boolean value) {
-      if (!value) {
-        this.message = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      case MESSAGE:
-        if (value == null) {
-          unsetMessage();
-        } else {
-          setMessage((String)value);
-        }
-        break;
-
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      case MESSAGE:
-        return getMessage();
-
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      case MESSAGE:
-        return isSetMessage();
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof echo_args)
-        return this.equals((echo_args)that);
-      return false;
-    }
-
-    public boolean equals(echo_args that) {
-      if (that == null)
-        return false;
-
-      boolean this_present_message = true && this.isSetMessage();
-      boolean that_present_message = true && that.isSetMessage();
-      if (this_present_message || that_present_message) {
-        if (!(this_present_message && that_present_message))
-          return false;
-        if (!this.message.equals(that.message))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    public int compareTo(echo_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-      echo_args typedOther = (echo_args)other;
-
-      lastComparison = Boolean.valueOf(isSetMessage()).compareTo(typedOther.isSetMessage());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetMessage()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.message, typedOther.message);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("echo_args(");
-      boolean first = true;
-
-      sb.append("message:");
-      if (this.message == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.message);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class echo_argsStandardSchemeFactory implements SchemeFactory {
-      public echo_argsStandardScheme getScheme() {
-        return new echo_argsStandardScheme();
-      }
-    }
-
-    private static class echo_argsStandardScheme extends StandardScheme<echo_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echo_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case -1: // MESSAGE
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.message = iprot.readString();
-                struct.setMessageIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echo_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.message != null) {
-          oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
-          oprot.writeString(struct.message);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class echo_argsTupleSchemeFactory implements SchemeFactory {
-      public echo_argsTupleScheme getScheme() {
-        return new echo_argsTupleScheme();
-      }
-    }
-
-    private static class echo_argsTupleScheme extends TupleScheme<echo_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echo_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetMessage()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetMessage()) {
-          oprot.writeString(struct.message);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echo_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.message = iprot.readString();
-          struct.setMessageIsSet(true);
-        }
-      }
-    }
-
-  }
-
-  public static class echo_result implements org.apache.thrift.TBase<echo_result, echo_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("echo_result");
+  public static class getVersion_result implements org.apache.thrift.TBase<getVersion_result, getVersion_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getVersion_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new echo_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new echo_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new getVersion_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new getVersion_resultTupleSchemeFactory());
     }
 
     public String success; // required
@@ -1173,13 +496,13 @@ public class BlockTransferService {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(echo_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getVersion_result.class, metaDataMap);
     }
 
-    public echo_result() {
+    public getVersion_result() {
     }
 
-    public echo_result(
+    public getVersion_result(
       String success)
     {
       this();
@@ -1189,14 +512,14 @@ public class BlockTransferService {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public echo_result(echo_result other) {
+    public getVersion_result(getVersion_result other) {
       if (other.isSetSuccess()) {
         this.success = other.success;
       }
     }
 
-    public echo_result deepCopy() {
-      return new echo_result(this);
+    public getVersion_result deepCopy() {
+      return new getVersion_result(this);
     }
 
     @Override
@@ -1208,7 +531,7 @@ public class BlockTransferService {
       return this.success;
     }
 
-    public echo_result setSuccess(String success) {
+    public getVersion_result setSuccess(String success) {
       this.success = success;
       return this;
     }
@@ -1267,12 +590,12 @@ public class BlockTransferService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof echo_result)
-        return this.equals((echo_result)that);
+      if (that instanceof getVersion_result)
+        return this.equals((getVersion_result)that);
       return false;
     }
 
-    public boolean equals(echo_result that) {
+    public boolean equals(getVersion_result that) {
       if (that == null)
         return false;
 
@@ -1293,13 +616,13 @@ public class BlockTransferService {
       return 0;
     }
 
-    public int compareTo(echo_result other) {
+    public int compareTo(getVersion_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      echo_result typedOther = (echo_result)other;
+      getVersion_result typedOther = (getVersion_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -1328,7 +651,7 @@ public class BlockTransferService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("echo_result(");
+      StringBuilder sb = new StringBuilder("getVersion_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -1363,15 +686,15 @@ public class BlockTransferService {
       }
     }
 
-    private static class echo_resultStandardSchemeFactory implements SchemeFactory {
-      public echo_resultStandardScheme getScheme() {
-        return new echo_resultStandardScheme();
+    private static class getVersion_resultStandardSchemeFactory implements SchemeFactory {
+      public getVersion_resultStandardScheme getScheme() {
+        return new getVersion_resultStandardScheme();
       }
     }
 
-    private static class echo_resultStandardScheme extends StandardScheme<echo_result> {
+    private static class getVersion_resultStandardScheme extends StandardScheme<getVersion_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, echo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getVersion_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1400,7 +723,7 @@ public class BlockTransferService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, echo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getVersion_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1415,16 +738,16 @@ public class BlockTransferService {
 
     }
 
-    private static class echo_resultTupleSchemeFactory implements SchemeFactory {
-      public echo_resultTupleScheme getScheme() {
-        return new echo_resultTupleScheme();
+    private static class getVersion_resultTupleSchemeFactory implements SchemeFactory {
+      public getVersion_resultTupleScheme getScheme() {
+        return new getVersion_resultTupleScheme();
       }
     }
 
-    private static class echo_resultTupleScheme extends TupleScheme<echo_result> {
+    private static class getVersion_resultTupleScheme extends TupleScheme<getVersion_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, echo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, getVersion_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -1437,7 +760,7 @@ public class BlockTransferService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, echo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, getVersion_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

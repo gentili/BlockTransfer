@@ -27,17 +27,41 @@ public class TestClient {
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
 			String ver = client.getVersion();
-			System.out.println(ver);
+			System.out.println("ModVer: "+ ver);
+			// Find the id for the diamond block
+			int blockid = -1;
 			Map<Integer, String> blockidmap = client.getBlockIdMap();
 			for (Iterator<Entry<Integer, String>> bitr = blockidmap.entrySet().iterator();bitr.hasNext();) {
 				Entry<Integer, String> block = bitr.next();
-				System.out.println(block.getKey() + "->" + block.getValue());
+				// System.out.println(block.getKey() + "->" + block.getValue());
+				if (block.getValue().contentEquals("minecraft:diamond_block")) {
+					blockid = block.getKey();
+				}
 			}
+			if (blockid < 0) {
+				throw new RuntimeException("Could not find diamond block");
+			}
+			System.out.println("Diamond block id: "+blockid);
+			// Just pick the last player for now
 			List<BTPlayer> playerlist = client.getPlayerList();
+			BTPlayer player = null;
 			for (Iterator<BTPlayer> pitr = playerlist.iterator();pitr.hasNext();) {
-				BTPlayer player = pitr.next();
-				System.out.println(player);
+				player = pitr.next();
 			}
+			if (player == null) {
+				throw new RuntimeException("Could not find a player");
+			}
+			System.out.println(player);
+			BTiLocation iloc = new BTiLocation((int)player.location.getX(),
+					(int)player.location.getY(),
+					(int)player.location.getZ());
+			client.setBlock(player.getWorldid(), 
+					iloc, 
+					blockid, 0);
+			client.setBlock(player.getWorldid(), 
+					iloc.setY(iloc.getY()+1), 
+					blockid, 0);
+			
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

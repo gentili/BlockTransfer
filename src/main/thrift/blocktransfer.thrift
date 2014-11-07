@@ -1,7 +1,7 @@
 namespace java ca.mcpnet.blocktransfer
 
-
 typedef map<i32,string> BlockIdMap
+typedef map<string,i32> BlockNameMap
 
 struct BTdLocation {
     1:required double x;
@@ -30,5 +30,9 @@ service BlockTransferService
 
     BlockIdMap getBlockIdMap()
 
+    BlockNameMap getBlockNameMap()
+
     PlayerList getPlayerList()
+
+    void setBlock(1:i32 worldid 2:BTiLocation location, 3:i32 id, 4:i32 metadata)
 }

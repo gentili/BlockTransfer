@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
@@ -21,6 +22,11 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	@Override
 	public Map<Integer, String> getBlockIdMap() throws TException {
 		return BlockTransferMod.instance.getBlockIdMap();
+	}
+	
+	@Override
+	public Map<String, Integer> getBlockNameMap() throws TException {
+		return BlockTransferMod.instance.getBlockNameMap();
 	}
 
 	@Override
@@ -39,9 +45,27 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 						new BTdLocation(player.posX,player.posY,player.posZ)));
 			}
 		}
-		// Lets get a list of players per world
 		
 		return list;
 	}
+
+	@Override
+	public void setBlock(int worldid, BTiLocation location, int id, int metadata)
+			throws TException {
+		WorldServer world = getWorld(worldid);
+		if (world == null) {
+			throw new TException("Invalid worldid specified");
+		}
+		world.setBlock(location.x, location.y, location.z, Block.getBlockById(id), metadata, 1+2);
+	}
 	
+	private WorldServer getWorld(int worldid) {
+		for (int i = 0; i < MinecraftServer.getServer().worldServers.length; i++) {
+			WorldServer world = MinecraftServer.getServer().worldServers[i];
+			if (world.provider.dimensionId == worldid)
+				return world;
+		}
+		return null;
+	}
+
 }

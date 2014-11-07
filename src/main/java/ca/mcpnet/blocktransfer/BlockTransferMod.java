@@ -47,11 +47,16 @@ public class BlockTransferMod
 	private Thread BTserverthread;
 	private TBlockTransferServer BTserver;
 	private Map<Integer, String> blockidmap;
+	private Map<String, Integer> blocknamemap;
 	
 	public Map<Integer, String> getBlockIdMap() {
 		return blockidmap;
 	}
 	
+	public Map<String, Integer> getBlockNameMap() {
+		return blocknamemap;
+	}
+
 	/*
 	 * The following are Forge and FML specific methods
 	 */
@@ -65,12 +70,14 @@ public class BlockTransferMod
 	public void onFMLPostInitializationEvent(FMLPostInitializationEvent e) {
 		// Build the block mapping list
 		blockidmap = new HashMap<Integer, String>();
+		blocknamemap = new HashMap<String, Integer>();
 		for (Iterator bitr = Block.blockRegistry.iterator();bitr.hasNext();) {
 			Block block = (Block) bitr.next();
 			String blockname = Block.blockRegistry.getNameForObject(block);
 			int blockid = Block.blockRegistry.getIDForObject(block);
 			log.info("Adding map " + blockid + "->" + blockname);
 			blockidmap.put(blockid, blockname);
+			blocknamemap.put(blockname, blockid);
 		}
 	}
         
@@ -135,4 +142,5 @@ public class BlockTransferMod
     	e.world.createExplosion(null, e.x, e.y, e.z, 1.0f, true);
     	Block block = e.world.getBlock(e.x, e.y, e.z);
     }
+
 }

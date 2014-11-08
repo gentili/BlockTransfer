@@ -30,8 +30,8 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLocation._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BTiLocation");
+public class BTiVector implements org.apache.thrift.TBase<BTiVector, BTiVector._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BTiVector");
 
   private static final org.apache.thrift.protocol.TField X_FIELD_DESC = new org.apache.thrift.protocol.TField("x", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField Y_FIELD_DESC = new org.apache.thrift.protocol.TField("y", org.apache.thrift.protocol.TType.I32, (short)2);
@@ -39,8 +39,8 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new BTiLocationStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new BTiLocationTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new BTiVectorStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new BTiVectorTupleSchemeFactory());
   }
 
   public int x; // required
@@ -126,13 +126,13 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     tmpMap.put(_Fields.Z, new org.apache.thrift.meta_data.FieldMetaData("z", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTiLocation.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTiVector.class, metaDataMap);
   }
 
-  public BTiLocation() {
+  public BTiVector() {
   }
 
-  public BTiLocation(
+  public BTiVector(
     int x,
     int y,
     int z)
@@ -149,15 +149,15 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public BTiLocation(BTiLocation other) {
+  public BTiVector(BTiVector other) {
     __isset_bitfield = other.__isset_bitfield;
     this.x = other.x;
     this.y = other.y;
     this.z = other.z;
   }
 
-  public BTiLocation deepCopy() {
-    return new BTiLocation(this);
+  public BTiVector deepCopy() {
+    return new BTiVector(this);
   }
 
   @Override
@@ -174,7 +174,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     return this.x;
   }
 
-  public BTiLocation setX(int x) {
+  public BTiVector setX(int x) {
     this.x = x;
     setXIsSet(true);
     return this;
@@ -197,7 +197,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     return this.y;
   }
 
-  public BTiLocation setY(int y) {
+  public BTiVector setY(int y) {
     this.y = y;
     setYIsSet(true);
     return this;
@@ -220,7 +220,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     return this.z;
   }
 
-  public BTiLocation setZ(int z) {
+  public BTiVector setZ(int z) {
     this.z = z;
     setZIsSet(true);
     return this;
@@ -304,12 +304,12 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof BTiLocation)
-      return this.equals((BTiLocation)that);
+    if (that instanceof BTiVector)
+      return this.equals((BTiVector)that);
     return false;
   }
 
-  public boolean equals(BTiLocation that) {
+  public boolean equals(BTiVector that) {
     if (that == null)
       return false;
 
@@ -348,13 +348,13 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     return 0;
   }
 
-  public int compareTo(BTiLocation other) {
+  public int compareTo(BTiVector other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    BTiLocation typedOther = (BTiLocation)other;
+    BTiVector typedOther = (BTiVector)other;
 
     lastComparison = Boolean.valueOf(isSetX()).compareTo(typedOther.isSetX());
     if (lastComparison != 0) {
@@ -403,7 +403,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("BTiLocation(");
+    StringBuilder sb = new StringBuilder("BTiVector(");
     boolean first = true;
 
     sb.append("x:");
@@ -447,15 +447,15 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     }
   }
 
-  private static class BTiLocationStandardSchemeFactory implements SchemeFactory {
-    public BTiLocationStandardScheme getScheme() {
-      return new BTiLocationStandardScheme();
+  private static class BTiVectorStandardSchemeFactory implements SchemeFactory {
+    public BTiVectorStandardScheme getScheme() {
+      return new BTiVectorStandardScheme();
     }
   }
 
-  private static class BTiLocationStandardScheme extends StandardScheme<BTiLocation> {
+  private static class BTiVectorStandardScheme extends StandardScheme<BTiVector> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, BTiLocation struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, BTiVector struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -509,7 +509,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, BTiLocation struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, BTiVector struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -528,16 +528,16 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
 
   }
 
-  private static class BTiLocationTupleSchemeFactory implements SchemeFactory {
-    public BTiLocationTupleScheme getScheme() {
-      return new BTiLocationTupleScheme();
+  private static class BTiVectorTupleSchemeFactory implements SchemeFactory {
+    public BTiVectorTupleScheme getScheme() {
+      return new BTiVectorTupleScheme();
     }
   }
 
-  private static class BTiLocationTupleScheme extends TupleScheme<BTiLocation> {
+  private static class BTiVectorTupleScheme extends TupleScheme<BTiVector> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, BTiLocation struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, BTiVector struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       oprot.writeI32(struct.x);
       oprot.writeI32(struct.y);
@@ -545,7 +545,7 @@ public class BTiLocation implements org.apache.thrift.TBase<BTiLocation, BTiLoca
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, BTiLocation struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, BTiVector struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       struct.x = iprot.readI32();
       struct.setXIsSet(true);

@@ -42,11 +42,11 @@ public class BlockTransferService {
 
     public List<BTPlayer> getPlayerList() throws org.apache.thrift.TException;
 
-    public void setBlock(int worldid, BTiLocation location, BTBlock block) throws org.apache.thrift.TException;
+    public void setBlock(int worldid, BTiVector location, BTBlock block) throws org.apache.thrift.TException;
 
-    public BTBlock getBlock(int worldid, BTiLocation location) throws org.apache.thrift.TException;
+    public BTBlock getBlock(int worldid, BTiVector location) throws org.apache.thrift.TException;
 
-    public BTWorldFrame getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException;
+    public BTWorldFrame getFrame(int worldid, BTiVector location, BTiVector size) throws org.apache.thrift.TException;
 
   }
 
@@ -60,11 +60,11 @@ public class BlockTransferService {
 
     public void getPlayerList(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getPlayerList_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void setBlock(int worldid, BTiLocation location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setBlock_call> resultHandler) throws org.apache.thrift.TException;
+    public void setBlock(int worldid, BTiVector location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setBlock_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getBlock(int worldid, BTiLocation location, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getBlock_call> resultHandler) throws org.apache.thrift.TException;
+    public void getBlock(int worldid, BTiVector location, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getBlock_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getFrame(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFrame_call> resultHandler) throws org.apache.thrift.TException;
+    public void getFrame(int worldid, BTiVector location, BTiVector size, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFrame_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -176,13 +176,13 @@ public class BlockTransferService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getPlayerList failed: unknown result");
     }
 
-    public void setBlock(int worldid, BTiLocation location, BTBlock block) throws org.apache.thrift.TException
+    public void setBlock(int worldid, BTiVector location, BTBlock block) throws org.apache.thrift.TException
     {
       send_setBlock(worldid, location, block);
       recv_setBlock();
     }
 
-    public void send_setBlock(int worldid, BTiLocation location, BTBlock block) throws org.apache.thrift.TException
+    public void send_setBlock(int worldid, BTiVector location, BTBlock block) throws org.apache.thrift.TException
     {
       setBlock_args args = new setBlock_args();
       args.setWorldid(worldid);
@@ -198,13 +198,13 @@ public class BlockTransferService {
       return;
     }
 
-    public BTBlock getBlock(int worldid, BTiLocation location) throws org.apache.thrift.TException
+    public BTBlock getBlock(int worldid, BTiVector location) throws org.apache.thrift.TException
     {
       send_getBlock(worldid, location);
       return recv_getBlock();
     }
 
-    public void send_getBlock(int worldid, BTiLocation location) throws org.apache.thrift.TException
+    public void send_getBlock(int worldid, BTiVector location) throws org.apache.thrift.TException
     {
       getBlock_args args = new getBlock_args();
       args.setWorldid(worldid);
@@ -222,13 +222,13 @@ public class BlockTransferService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getBlock failed: unknown result");
     }
 
-    public BTWorldFrame getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException
+    public BTWorldFrame getFrame(int worldid, BTiVector location, BTiVector size) throws org.apache.thrift.TException
     {
       send_getFrame(worldid, location, size);
       return recv_getFrame();
     }
 
-    public void send_getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException
+    public void send_getFrame(int worldid, BTiVector location, BTiVector size) throws org.apache.thrift.TException
     {
       getFrame_args args = new getFrame_args();
       args.setWorldid(worldid);
@@ -381,7 +381,7 @@ public class BlockTransferService {
       }
     }
 
-    public void setBlock(int worldid, BTiLocation location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<setBlock_call> resultHandler) throws org.apache.thrift.TException {
+    public void setBlock(int worldid, BTiVector location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<setBlock_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       setBlock_call method_call = new setBlock_call(worldid, location, block, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -390,9 +390,9 @@ public class BlockTransferService {
 
     public static class setBlock_call extends org.apache.thrift.async.TAsyncMethodCall {
       private int worldid;
-      private BTiLocation location;
+      private BTiVector location;
       private BTBlock block;
-      public setBlock_call(int worldid, BTiLocation location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<setBlock_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public setBlock_call(int worldid, BTiVector location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<setBlock_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.worldid = worldid;
         this.location = location;
@@ -419,7 +419,7 @@ public class BlockTransferService {
       }
     }
 
-    public void getBlock(int worldid, BTiLocation location, org.apache.thrift.async.AsyncMethodCallback<getBlock_call> resultHandler) throws org.apache.thrift.TException {
+    public void getBlock(int worldid, BTiVector location, org.apache.thrift.async.AsyncMethodCallback<getBlock_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getBlock_call method_call = new getBlock_call(worldid, location, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -428,8 +428,8 @@ public class BlockTransferService {
 
     public static class getBlock_call extends org.apache.thrift.async.TAsyncMethodCall {
       private int worldid;
-      private BTiLocation location;
-      public getBlock_call(int worldid, BTiLocation location, org.apache.thrift.async.AsyncMethodCallback<getBlock_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private BTiVector location;
+      public getBlock_call(int worldid, BTiVector location, org.apache.thrift.async.AsyncMethodCallback<getBlock_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.worldid = worldid;
         this.location = location;
@@ -454,7 +454,7 @@ public class BlockTransferService {
       }
     }
 
-    public void getFrame(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler) throws org.apache.thrift.TException {
+    public void getFrame(int worldid, BTiVector location, BTiVector size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getFrame_call method_call = new getFrame_call(worldid, location, size, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -463,9 +463,9 @@ public class BlockTransferService {
 
     public static class getFrame_call extends org.apache.thrift.async.TAsyncMethodCall {
       private int worldid;
-      private BTiLocation location;
-      private BTiLocation size;
-      public getFrame_call(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private BTiVector location;
+      private BTiVector size;
+      public getFrame_call(int worldid, BTiVector location, BTiVector size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.worldid = worldid;
         this.location = location;
@@ -3218,7 +3218,7 @@ public class BlockTransferService {
     }
 
     public int worldid; // required
-    public BTiLocation location; // required
+    public BTiVector location; // required
     public BTBlock block; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -3294,7 +3294,7 @@ public class BlockTransferService {
       tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
       tmpMap.put(_Fields.BLOCK, new org.apache.thrift.meta_data.FieldMetaData("block", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTBlock.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -3306,7 +3306,7 @@ public class BlockTransferService {
 
     public setBlock_args(
       int worldid,
-      BTiLocation location,
+      BTiVector location,
       BTBlock block)
     {
       this();
@@ -3323,7 +3323,7 @@ public class BlockTransferService {
       __isset_bitfield = other.__isset_bitfield;
       this.worldid = other.worldid;
       if (other.isSetLocation()) {
-        this.location = new BTiLocation(other.location);
+        this.location = new BTiVector(other.location);
       }
       if (other.isSetBlock()) {
         this.block = new BTBlock(other.block);
@@ -3365,11 +3365,11 @@ public class BlockTransferService {
       __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
     }
 
-    public BTiLocation getLocation() {
+    public BTiVector getLocation() {
       return this.location;
     }
 
-    public setBlock_args setLocation(BTiLocation location) {
+    public setBlock_args setLocation(BTiVector location) {
       this.location = location;
       return this;
     }
@@ -3427,7 +3427,7 @@ public class BlockTransferService {
         if (value == null) {
           unsetLocation();
         } else {
-          setLocation((BTiLocation)value);
+          setLocation((BTiVector)value);
         }
         break;
 
@@ -3660,7 +3660,7 @@ public class BlockTransferService {
               break;
             case 2: // LOCATION
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.location = new BTiLocation();
+                struct.location = new BTiVector();
                 struct.location.read(iprot);
                 struct.setLocationIsSet(true);
               } else { 
@@ -3752,7 +3752,7 @@ public class BlockTransferService {
           struct.setWorldidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.location = new BTiLocation();
+          struct.location = new BTiVector();
           struct.location.read(iprot);
           struct.setLocationIsSet(true);
         }
@@ -4025,7 +4025,7 @@ public class BlockTransferService {
     }
 
     public int worldid; // required
-    public BTiLocation location; // required
+    public BTiVector location; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -4097,7 +4097,7 @@ public class BlockTransferService {
       tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getBlock_args.class, metaDataMap);
     }
@@ -4107,7 +4107,7 @@ public class BlockTransferService {
 
     public getBlock_args(
       int worldid,
-      BTiLocation location)
+      BTiVector location)
     {
       this();
       this.worldid = worldid;
@@ -4122,7 +4122,7 @@ public class BlockTransferService {
       __isset_bitfield = other.__isset_bitfield;
       this.worldid = other.worldid;
       if (other.isSetLocation()) {
-        this.location = new BTiLocation(other.location);
+        this.location = new BTiVector(other.location);
       }
     }
 
@@ -4160,11 +4160,11 @@ public class BlockTransferService {
       __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
     }
 
-    public BTiLocation getLocation() {
+    public BTiVector getLocation() {
       return this.location;
     }
 
-    public getBlock_args setLocation(BTiLocation location) {
+    public getBlock_args setLocation(BTiVector location) {
       this.location = location;
       return this;
     }
@@ -4198,7 +4198,7 @@ public class BlockTransferService {
         if (value == null) {
           unsetLocation();
         } else {
-          setLocation((BTiLocation)value);
+          setLocation((BTiVector)value);
         }
         break;
 
@@ -4388,7 +4388,7 @@ public class BlockTransferService {
               break;
             case 2: // LOCATION
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.location = new BTiLocation();
+                struct.location = new BTiVector();
                 struct.location.read(iprot);
                 struct.setLocationIsSet(true);
               } else { 
@@ -4460,7 +4460,7 @@ public class BlockTransferService {
           struct.setWorldidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.location = new BTiLocation();
+          struct.location = new BTiVector();
           struct.location.read(iprot);
           struct.setLocationIsSet(true);
         }
@@ -4842,8 +4842,8 @@ public class BlockTransferService {
     }
 
     public int worldid; // required
-    public BTiLocation location; // required
-    public BTiLocation size; // required
+    public BTiVector location; // required
+    public BTiVector size; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -4918,9 +4918,9 @@ public class BlockTransferService {
       tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
       tmpMap.put(_Fields.SIZE, new org.apache.thrift.meta_data.FieldMetaData("size", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFrame_args.class, metaDataMap);
     }
@@ -4930,8 +4930,8 @@ public class BlockTransferService {
 
     public getFrame_args(
       int worldid,
-      BTiLocation location,
-      BTiLocation size)
+      BTiVector location,
+      BTiVector size)
     {
       this();
       this.worldid = worldid;
@@ -4947,10 +4947,10 @@ public class BlockTransferService {
       __isset_bitfield = other.__isset_bitfield;
       this.worldid = other.worldid;
       if (other.isSetLocation()) {
-        this.location = new BTiLocation(other.location);
+        this.location = new BTiVector(other.location);
       }
       if (other.isSetSize()) {
-        this.size = new BTiLocation(other.size);
+        this.size = new BTiVector(other.size);
       }
     }
 
@@ -4989,11 +4989,11 @@ public class BlockTransferService {
       __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
     }
 
-    public BTiLocation getLocation() {
+    public BTiVector getLocation() {
       return this.location;
     }
 
-    public getFrame_args setLocation(BTiLocation location) {
+    public getFrame_args setLocation(BTiVector location) {
       this.location = location;
       return this;
     }
@@ -5013,11 +5013,11 @@ public class BlockTransferService {
       }
     }
 
-    public BTiLocation getSize() {
+    public BTiVector getSize() {
       return this.size;
     }
 
-    public getFrame_args setSize(BTiLocation size) {
+    public getFrame_args setSize(BTiVector size) {
       this.size = size;
       return this;
     }
@@ -5051,7 +5051,7 @@ public class BlockTransferService {
         if (value == null) {
           unsetLocation();
         } else {
-          setLocation((BTiLocation)value);
+          setLocation((BTiVector)value);
         }
         break;
 
@@ -5059,7 +5059,7 @@ public class BlockTransferService {
         if (value == null) {
           unsetSize();
         } else {
-          setSize((BTiLocation)value);
+          setSize((BTiVector)value);
         }
         break;
 
@@ -5284,7 +5284,7 @@ public class BlockTransferService {
               break;
             case 2: // LOCATION
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.location = new BTiLocation();
+                struct.location = new BTiVector();
                 struct.location.read(iprot);
                 struct.setLocationIsSet(true);
               } else { 
@@ -5293,7 +5293,7 @@ public class BlockTransferService {
               break;
             case 3: // SIZE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.size = new BTiLocation();
+                struct.size = new BTiVector();
                 struct.size.read(iprot);
                 struct.setSizeIsSet(true);
               } else { 
@@ -5376,12 +5376,12 @@ public class BlockTransferService {
           struct.setWorldidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.location = new BTiLocation();
+          struct.location = new BTiVector();
           struct.location.read(iprot);
           struct.setLocationIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.size = new BTiLocation();
+          struct.size = new BTiVector();
           struct.size.read(iprot);
           struct.setSizeIsSet(true);
         }

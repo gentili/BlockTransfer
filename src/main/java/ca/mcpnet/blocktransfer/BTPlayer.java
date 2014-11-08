@@ -47,7 +47,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
   public int id; // required
   public String name; // required
   public int worldid; // required
-  public BTdLocation location; // required
+  public BTdVector location; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -130,7 +130,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
     tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTdLocation.class)));
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTdVector.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTPlayer.class, metaDataMap);
   }
@@ -142,7 +142,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
     int id,
     String name,
     int worldid,
-    BTdLocation location)
+    BTdVector location)
   {
     this();
     this.id = id;
@@ -164,7 +164,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
     }
     this.worldid = other.worldid;
     if (other.isSetLocation()) {
-      this.location = new BTdLocation(other.location);
+      this.location = new BTdVector(other.location);
     }
   }
 
@@ -252,11 +252,11 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
   }
 
-  public BTdLocation getLocation() {
+  public BTdVector getLocation() {
     return this.location;
   }
 
-  public BTPlayer setLocation(BTdLocation location) {
+  public BTPlayer setLocation(BTdVector location) {
     this.location = location;
     return this;
   }
@@ -306,7 +306,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
       if (value == null) {
         unsetLocation();
       } else {
-        setLocation((BTdLocation)value);
+        setLocation((BTdVector)value);
       }
       break;
 
@@ -580,7 +580,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
             break;
           case 4: // LOCATION
             if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.location = new BTdLocation();
+              struct.location = new BTdVector();
               struct.location.read(iprot);
               struct.setLocationIsSet(true);
             } else { 
@@ -656,7 +656,7 @@ public class BTPlayer implements org.apache.thrift.TBase<BTPlayer, BTPlayer._Fie
       struct.setNameIsSet(true);
       struct.worldid = iprot.readI32();
       struct.setWorldidIsSet(true);
-      struct.location = new BTdLocation();
+      struct.location = new BTdVector();
       struct.location.read(iprot);
       struct.setLocationIsSet(true);
     }

@@ -53,7 +53,7 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 				list.add(new BTPlayer(player.getEntityId(),
 						player.getDisplayName(),
 						world.provider.dimensionId,
-						new BTdLocation(player.posX,player.posY,player.posZ)));
+						new BTdVector(player.posX,player.posY,player.posZ)));
 			}
 		}
 		
@@ -61,14 +61,14 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	}
 
 	@Override
-	public void setBlock(int worldid, BTiLocation location, BTBlock block)
+	public void setBlock(int worldid, BTiVector location, BTBlock block)
 			throws TException {
 		WorldServer world = getWorld(worldid);
 		world.setBlock(location.x, location.y, location.z, Block.getBlockById(block.getId()), block.getMetadata(), 1+2);
 	}
 	
 	@Override
-	public BTBlock getBlock(int worldid, BTiLocation location)
+	public BTBlock getBlock(int worldid, BTiVector location)
 			throws TException {
 		WorldServer world = getWorld(worldid);
 		Block block = world.getBlock(location.x, location.y, location.z);
@@ -76,8 +76,8 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	}
 
 	@Override
-	public BTWorldFrame getFrame(int worldid, BTiLocation location,
-			BTiLocation size) throws TException {
+	public BTWorldFrame getFrame(int worldid, BTiVector location,
+			BTiVector size) throws TException {
 		return null;
 	}
 	

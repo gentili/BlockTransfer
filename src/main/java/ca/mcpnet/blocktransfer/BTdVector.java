@@ -30,8 +30,8 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLocation._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BTdLocation");
+public class BTdVector implements org.apache.thrift.TBase<BTdVector, BTdVector._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BTdVector");
 
   private static final org.apache.thrift.protocol.TField X_FIELD_DESC = new org.apache.thrift.protocol.TField("x", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
   private static final org.apache.thrift.protocol.TField Y_FIELD_DESC = new org.apache.thrift.protocol.TField("y", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
@@ -39,8 +39,8 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
-    schemes.put(StandardScheme.class, new BTdLocationStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new BTdLocationTupleSchemeFactory());
+    schemes.put(StandardScheme.class, new BTdVectorStandardSchemeFactory());
+    schemes.put(TupleScheme.class, new BTdVectorTupleSchemeFactory());
   }
 
   public double x; // required
@@ -126,13 +126,13 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     tmpMap.put(_Fields.Z, new org.apache.thrift.meta_data.FieldMetaData("z", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTdLocation.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTdVector.class, metaDataMap);
   }
 
-  public BTdLocation() {
+  public BTdVector() {
   }
 
-  public BTdLocation(
+  public BTdVector(
     double x,
     double y,
     double z)
@@ -149,15 +149,15 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public BTdLocation(BTdLocation other) {
+  public BTdVector(BTdVector other) {
     __isset_bitfield = other.__isset_bitfield;
     this.x = other.x;
     this.y = other.y;
     this.z = other.z;
   }
 
-  public BTdLocation deepCopy() {
-    return new BTdLocation(this);
+  public BTdVector deepCopy() {
+    return new BTdVector(this);
   }
 
   @Override
@@ -174,7 +174,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     return this.x;
   }
 
-  public BTdLocation setX(double x) {
+  public BTdVector setX(double x) {
     this.x = x;
     setXIsSet(true);
     return this;
@@ -197,7 +197,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     return this.y;
   }
 
-  public BTdLocation setY(double y) {
+  public BTdVector setY(double y) {
     this.y = y;
     setYIsSet(true);
     return this;
@@ -220,7 +220,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     return this.z;
   }
 
-  public BTdLocation setZ(double z) {
+  public BTdVector setZ(double z) {
     this.z = z;
     setZIsSet(true);
     return this;
@@ -304,12 +304,12 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof BTdLocation)
-      return this.equals((BTdLocation)that);
+    if (that instanceof BTdVector)
+      return this.equals((BTdVector)that);
     return false;
   }
 
-  public boolean equals(BTdLocation that) {
+  public boolean equals(BTdVector that) {
     if (that == null)
       return false;
 
@@ -348,13 +348,13 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     return 0;
   }
 
-  public int compareTo(BTdLocation other) {
+  public int compareTo(BTdVector other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    BTdLocation typedOther = (BTdLocation)other;
+    BTdVector typedOther = (BTdVector)other;
 
     lastComparison = Boolean.valueOf(isSetX()).compareTo(typedOther.isSetX());
     if (lastComparison != 0) {
@@ -403,7 +403,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("BTdLocation(");
+    StringBuilder sb = new StringBuilder("BTdVector(");
     boolean first = true;
 
     sb.append("x:");
@@ -447,15 +447,15 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     }
   }
 
-  private static class BTdLocationStandardSchemeFactory implements SchemeFactory {
-    public BTdLocationStandardScheme getScheme() {
-      return new BTdLocationStandardScheme();
+  private static class BTdVectorStandardSchemeFactory implements SchemeFactory {
+    public BTdVectorStandardScheme getScheme() {
+      return new BTdVectorStandardScheme();
     }
   }
 
-  private static class BTdLocationStandardScheme extends StandardScheme<BTdLocation> {
+  private static class BTdVectorStandardScheme extends StandardScheme<BTdVector> {
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, BTdLocation struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot, BTdVector struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
@@ -509,7 +509,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
       struct.validate();
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, BTdLocation struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot, BTdVector struct) throws org.apache.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -528,16 +528,16 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
 
   }
 
-  private static class BTdLocationTupleSchemeFactory implements SchemeFactory {
-    public BTdLocationTupleScheme getScheme() {
-      return new BTdLocationTupleScheme();
+  private static class BTdVectorTupleSchemeFactory implements SchemeFactory {
+    public BTdVectorTupleScheme getScheme() {
+      return new BTdVectorTupleScheme();
     }
   }
 
-  private static class BTdLocationTupleScheme extends TupleScheme<BTdLocation> {
+  private static class BTdVectorTupleScheme extends TupleScheme<BTdVector> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, BTdLocation struct) throws org.apache.thrift.TException {
+    public void write(org.apache.thrift.protocol.TProtocol prot, BTdVector struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       oprot.writeDouble(struct.x);
       oprot.writeDouble(struct.y);
@@ -545,7 +545,7 @@ public class BTdLocation implements org.apache.thrift.TBase<BTdLocation, BTdLoca
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, BTdLocation struct) throws org.apache.thrift.TException {
+    public void read(org.apache.thrift.protocol.TProtocol prot, BTdVector struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
       struct.x = iprot.readDouble();
       struct.setXIsSet(true);

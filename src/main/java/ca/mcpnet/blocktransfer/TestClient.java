@@ -52,7 +52,7 @@ public class TestClient {
 				throw new RuntimeException("Could not find a player");
 			}
 			System.out.println(player);
-			BTiLocation iloc = new BTiLocation((int)player.location.getX(),
+			BTiVector iloc = new BTiVector((int)player.location.getX(),
 					(int)player.location.getY(),
 					(int)player.location.getZ());
 			client.setBlock(player.getWorldid(), 
@@ -61,7 +61,7 @@ public class TestClient {
 			client.setBlock(player.getWorldid(), 
 					iloc.setY(iloc.getY()+1), 
 					new BTBlock(blockid, 17));
-			BTBlock block = client.getBlock(player.getWorldid(), new BTiLocation(10000,0,0));
+			BTBlock block = client.getBlock(player.getWorldid(), new BTiVector(10000,0,0));
 			System.out.println(block);
 			
 		} catch (TTransportException e) {

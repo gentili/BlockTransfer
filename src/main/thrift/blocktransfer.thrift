@@ -22,6 +22,11 @@ struct BTPlayer {
     4:required BTdLocation location;
 }
 
+struct BTBlock {
+    1:required i32 id;
+    2:required i32 metadata;
+}
+
 typedef list<BTPlayer> PlayerList
 
 service BlockTransferService
@@ -34,5 +39,7 @@ service BlockTransferService
 
     PlayerList getPlayerList()
 
-    void setBlock(1:i32 worldid 2:BTiLocation location, 3:i32 id, 4:i32 metadata)
+    void setBlock(1:i32 worldid 2:BTiLocation location, 3:BTBlock block)
+
+    BTBlock getBlock(1:i32 worldid 2:BTiLocation location)
 }

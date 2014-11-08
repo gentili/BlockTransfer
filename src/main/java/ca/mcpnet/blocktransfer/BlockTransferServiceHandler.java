@@ -14,6 +14,15 @@ import org.apache.thrift.TException;
 
 public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 
+	private WorldServer getWorld(int worldid) throws TException {
+		for (int i = 0; i < MinecraftServer.getServer().worldServers.length; i++) {
+			WorldServer world = MinecraftServer.getServer().worldServers[i];
+			if (world.provider.dimensionId == worldid)
+				return world;
+		}
+		throw new TException("Invalid worldid specified");
+	}
+
 	@Override
 	public String getVersion() throws TException {
 		return BlockTransferMod.VERSION;
@@ -50,22 +59,18 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	}
 
 	@Override
-	public void setBlock(int worldid, BTiLocation location, int id, int metadata)
+	public void setBlock(int worldid, BTiLocation location, BTBlock block)
 			throws TException {
 		WorldServer world = getWorld(worldid);
-		if (world == null) {
-			throw new TException("Invalid worldid specified");
-		}
-		world.setBlock(location.x, location.y, location.z, Block.getBlockById(id), metadata, 1+2);
+		world.setBlock(location.x, location.y, location.z, Block.getBlockById(block.getId()), block.getMetadata(), 1+2);
 	}
 	
-	private WorldServer getWorld(int worldid) {
-		for (int i = 0; i < MinecraftServer.getServer().worldServers.length; i++) {
-			WorldServer world = MinecraftServer.getServer().worldServers[i];
-			if (world.provider.dimensionId == worldid)
-				return world;
-		}
-		return null;
+	@Override
+	public BTBlock getBlock(int worldid, BTiLocation location)
+			throws TException {
+		WorldServer world = getWorld(worldid);
+		Block block = world.getBlock(location.x, location.y, location.z);
+		return new BTBlock(Block.getIdFromBlock(block),world.getBlockMetadata(location.x, location.y, location.z));
 	}
-
+	
 }

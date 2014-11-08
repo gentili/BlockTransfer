@@ -57,10 +57,12 @@ public class TestClient {
 					(int)player.location.getZ());
 			client.setBlock(player.getWorldid(), 
 					iloc, 
-					blockid, 0);
+					new BTBlock(blockid, 15));
 			client.setBlock(player.getWorldid(), 
 					iloc.setY(iloc.getY()+1), 
-					blockid, 0);
+					new BTBlock(blockid, 17));
+			BTBlock block = client.getBlock(player.getWorldid(), iloc);
+			System.out.println(block);
 			
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block

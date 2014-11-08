@@ -1,8 +1,5 @@
 namespace java ca.mcpnet.blocktransfer
 
-typedef map<i32,string> BlockIdMap
-typedef map<string,i32> BlockNameMap
-
 struct BTdLocation {
     1:required double x;
     2:required double y;
@@ -27,6 +24,16 @@ struct BTBlock {
     2:required i32 metadata;
 }
 
+struct BTWorldFrame {
+    1:required i32 xlength;
+    2:required i32 ylength;
+    3:required i32 zlength;
+    4:required binary ids;
+    5:required binary metadata;
+}
+
+typedef map<i32,string> BlockIdMap
+typedef map<string,i32> BlockNameMap
 typedef list<BTPlayer> PlayerList
 
 service BlockTransferService
@@ -42,4 +49,7 @@ service BlockTransferService
     void setBlock(1:i32 worldid 2:BTiLocation location, 3:BTBlock block)
 
     BTBlock getBlock(1:i32 worldid 2:BTiLocation location)
+
+    BTWorldFrame getFrame(1:i32 worldid 2:BTiLocation location, 3:BTiLocation size)
+
 }

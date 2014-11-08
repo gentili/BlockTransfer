@@ -9,6 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.ForgeChunkManager;
 
 import org.apache.thrift.TException;
 
@@ -71,6 +73,12 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 		WorldServer world = getWorld(worldid);
 		Block block = world.getBlock(location.x, location.y, location.z);
 		return new BTBlock(Block.getIdFromBlock(block),world.getBlockMetadata(location.x, location.y, location.z));
+	}
+
+	@Override
+	public BTWorldFrame getFrame(int worldid, BTiLocation location,
+			BTiLocation size) throws TException {
+		return null;
 	}
 	
 }

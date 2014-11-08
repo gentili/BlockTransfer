@@ -61,7 +61,7 @@ public class TestClient {
 			client.setBlock(player.getWorldid(), 
 					iloc.setY(iloc.getY()+1), 
 					new BTBlock(blockid, 17));
-			BTBlock block = client.getBlock(player.getWorldid(), iloc);
+			BTBlock block = client.getBlock(player.getWorldid(), new BTiLocation(10000,0,0));
 			System.out.println(block);
 			
 		} catch (TTransportException e) {

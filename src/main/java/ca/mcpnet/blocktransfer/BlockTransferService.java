@@ -46,6 +46,8 @@ public class BlockTransferService {
 
     public BTBlock getBlock(int worldid, BTiLocation location) throws org.apache.thrift.TException;
 
+    public BTWorldFrame getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -61,6 +63,8 @@ public class BlockTransferService {
     public void setBlock(int worldid, BTiLocation location, BTBlock block, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setBlock_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getBlock(int worldid, BTiLocation location, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getBlock_call> resultHandler) throws org.apache.thrift.TException;
+
+    public void getFrame(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFrame_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -216,6 +220,31 @@ public class BlockTransferService {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getBlock failed: unknown result");
+    }
+
+    public BTWorldFrame getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException
+    {
+      send_getFrame(worldid, location, size);
+      return recv_getFrame();
+    }
+
+    public void send_getFrame(int worldid, BTiLocation location, BTiLocation size) throws org.apache.thrift.TException
+    {
+      getFrame_args args = new getFrame_args();
+      args.setWorldid(worldid);
+      args.setLocation(location);
+      args.setSize(size);
+      sendBase("getFrame", args);
+    }
+
+    public BTWorldFrame recv_getFrame() throws org.apache.thrift.TException
+    {
+      getFrame_result result = new getFrame_result();
+      receiveBase(result, "getFrame");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getFrame failed: unknown result");
     }
 
   }
@@ -425,6 +454,44 @@ public class BlockTransferService {
       }
     }
 
+    public void getFrame(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      getFrame_call method_call = new getFrame_call(worldid, location, size, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class getFrame_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private int worldid;
+      private BTiLocation location;
+      private BTiLocation size;
+      public getFrame_call(int worldid, BTiLocation location, BTiLocation size, org.apache.thrift.async.AsyncMethodCallback<getFrame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.worldid = worldid;
+        this.location = location;
+        this.size = size;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFrame", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        getFrame_args args = new getFrame_args();
+        args.setWorldid(worldid);
+        args.setLocation(location);
+        args.setSize(size);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public BTWorldFrame getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_getFrame();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -444,6 +511,7 @@ public class BlockTransferService {
       processMap.put("getPlayerList", new getPlayerList());
       processMap.put("setBlock", new setBlock());
       processMap.put("getBlock", new getBlock());
+      processMap.put("getFrame", new getFrame());
       return processMap;
     }
 
@@ -563,6 +631,26 @@ public class BlockTransferService {
       public getBlock_result getResult(I iface, getBlock_args args) throws org.apache.thrift.TException {
         getBlock_result result = new getBlock_result();
         result.success = iface.getBlock(args.worldid, args.location);
+        return result;
+      }
+    }
+
+    public static class getFrame<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getFrame_args> {
+      public getFrame() {
+        super("getFrame");
+      }
+
+      public getFrame_args getEmptyArgsInstance() {
+        return new getFrame_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public getFrame_result getResult(I iface, getFrame_args args) throws org.apache.thrift.TException {
+        getFrame_result result = new getFrame_result();
+        result.success = iface.getFrame(args.worldid, args.location, args.size);
         return result;
       }
     }
@@ -4732,6 +4820,927 @@ public class BlockTransferService {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.success = new BTBlock();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class getFrame_args implements org.apache.thrift.TBase<getFrame_args, getFrame_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFrame_args");
+
+    private static final org.apache.thrift.protocol.TField WORLDID_FIELD_DESC = new org.apache.thrift.protocol.TField("worldid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField LOCATION_FIELD_DESC = new org.apache.thrift.protocol.TField("location", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("size", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new getFrame_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new getFrame_argsTupleSchemeFactory());
+    }
+
+    public int worldid; // required
+    public BTiLocation location; // required
+    public BTiLocation size; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      WORLDID((short)1, "worldid"),
+      LOCATION((short)2, "location"),
+      SIZE((short)3, "size");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // WORLDID
+            return WORLDID;
+          case 2: // LOCATION
+            return LOCATION;
+          case 3: // SIZE
+            return SIZE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __WORLDID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+      tmpMap.put(_Fields.SIZE, new org.apache.thrift.meta_data.FieldMetaData("size", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiLocation.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFrame_args.class, metaDataMap);
+    }
+
+    public getFrame_args() {
+    }
+
+    public getFrame_args(
+      int worldid,
+      BTiLocation location,
+      BTiLocation size)
+    {
+      this();
+      this.worldid = worldid;
+      setWorldidIsSet(true);
+      this.location = location;
+      this.size = size;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public getFrame_args(getFrame_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.worldid = other.worldid;
+      if (other.isSetLocation()) {
+        this.location = new BTiLocation(other.location);
+      }
+      if (other.isSetSize()) {
+        this.size = new BTiLocation(other.size);
+      }
+    }
+
+    public getFrame_args deepCopy() {
+      return new getFrame_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setWorldidIsSet(false);
+      this.worldid = 0;
+      this.location = null;
+      this.size = null;
+    }
+
+    public int getWorldid() {
+      return this.worldid;
+    }
+
+    public getFrame_args setWorldid(int worldid) {
+      this.worldid = worldid;
+      setWorldidIsSet(true);
+      return this;
+    }
+
+    public void unsetWorldid() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __WORLDID_ISSET_ID);
+    }
+
+    /** Returns true if field worldid is set (has been assigned a value) and false otherwise */
+    public boolean isSetWorldid() {
+      return EncodingUtils.testBit(__isset_bitfield, __WORLDID_ISSET_ID);
+    }
+
+    public void setWorldidIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
+    }
+
+    public BTiLocation getLocation() {
+      return this.location;
+    }
+
+    public getFrame_args setLocation(BTiLocation location) {
+      this.location = location;
+      return this;
+    }
+
+    public void unsetLocation() {
+      this.location = null;
+    }
+
+    /** Returns true if field location is set (has been assigned a value) and false otherwise */
+    public boolean isSetLocation() {
+      return this.location != null;
+    }
+
+    public void setLocationIsSet(boolean value) {
+      if (!value) {
+        this.location = null;
+      }
+    }
+
+    public BTiLocation getSize() {
+      return this.size;
+    }
+
+    public getFrame_args setSize(BTiLocation size) {
+      this.size = size;
+      return this;
+    }
+
+    public void unsetSize() {
+      this.size = null;
+    }
+
+    /** Returns true if field size is set (has been assigned a value) and false otherwise */
+    public boolean isSetSize() {
+      return this.size != null;
+    }
+
+    public void setSizeIsSet(boolean value) {
+      if (!value) {
+        this.size = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case WORLDID:
+        if (value == null) {
+          unsetWorldid();
+        } else {
+          setWorldid((Integer)value);
+        }
+        break;
+
+      case LOCATION:
+        if (value == null) {
+          unsetLocation();
+        } else {
+          setLocation((BTiLocation)value);
+        }
+        break;
+
+      case SIZE:
+        if (value == null) {
+          unsetSize();
+        } else {
+          setSize((BTiLocation)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case WORLDID:
+        return Integer.valueOf(getWorldid());
+
+      case LOCATION:
+        return getLocation();
+
+      case SIZE:
+        return getSize();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case WORLDID:
+        return isSetWorldid();
+      case LOCATION:
+        return isSetLocation();
+      case SIZE:
+        return isSetSize();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof getFrame_args)
+        return this.equals((getFrame_args)that);
+      return false;
+    }
+
+    public boolean equals(getFrame_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_worldid = true;
+      boolean that_present_worldid = true;
+      if (this_present_worldid || that_present_worldid) {
+        if (!(this_present_worldid && that_present_worldid))
+          return false;
+        if (this.worldid != that.worldid)
+          return false;
+      }
+
+      boolean this_present_location = true && this.isSetLocation();
+      boolean that_present_location = true && that.isSetLocation();
+      if (this_present_location || that_present_location) {
+        if (!(this_present_location && that_present_location))
+          return false;
+        if (!this.location.equals(that.location))
+          return false;
+      }
+
+      boolean this_present_size = true && this.isSetSize();
+      boolean that_present_size = true && that.isSetSize();
+      if (this_present_size || that_present_size) {
+        if (!(this_present_size && that_present_size))
+          return false;
+        if (!this.size.equals(that.size))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(getFrame_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      getFrame_args typedOther = (getFrame_args)other;
+
+      lastComparison = Boolean.valueOf(isSetWorldid()).compareTo(typedOther.isSetWorldid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetWorldid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.worldid, typedOther.worldid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetLocation()).compareTo(typedOther.isSetLocation());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetLocation()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.location, typedOther.location);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetSize()).compareTo(typedOther.isSetSize());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSize()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.size, typedOther.size);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("getFrame_args(");
+      boolean first = true;
+
+      sb.append("worldid:");
+      sb.append(this.worldid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("location:");
+      if (this.location == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.location);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("size:");
+      if (this.size == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.size);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (location != null) {
+        location.validate();
+      }
+      if (size != null) {
+        size.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class getFrame_argsStandardSchemeFactory implements SchemeFactory {
+      public getFrame_argsStandardScheme getScheme() {
+        return new getFrame_argsStandardScheme();
+      }
+    }
+
+    private static class getFrame_argsStandardScheme extends StandardScheme<getFrame_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getFrame_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // WORLDID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.worldid = iprot.readI32();
+                struct.setWorldidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // LOCATION
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.location = new BTiLocation();
+                struct.location.read(iprot);
+                struct.setLocationIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // SIZE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.size = new BTiLocation();
+                struct.size.read(iprot);
+                struct.setSizeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getFrame_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(WORLDID_FIELD_DESC);
+        oprot.writeI32(struct.worldid);
+        oprot.writeFieldEnd();
+        if (struct.location != null) {
+          oprot.writeFieldBegin(LOCATION_FIELD_DESC);
+          struct.location.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.size != null) {
+          oprot.writeFieldBegin(SIZE_FIELD_DESC);
+          struct.size.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class getFrame_argsTupleSchemeFactory implements SchemeFactory {
+      public getFrame_argsTupleScheme getScheme() {
+        return new getFrame_argsTupleScheme();
+      }
+    }
+
+    private static class getFrame_argsTupleScheme extends TupleScheme<getFrame_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, getFrame_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetWorldid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetLocation()) {
+          optionals.set(1);
+        }
+        if (struct.isSetSize()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetWorldid()) {
+          oprot.writeI32(struct.worldid);
+        }
+        if (struct.isSetLocation()) {
+          struct.location.write(oprot);
+        }
+        if (struct.isSetSize()) {
+          struct.size.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, getFrame_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.worldid = iprot.readI32();
+          struct.setWorldidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.location = new BTiLocation();
+          struct.location.read(iprot);
+          struct.setLocationIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.size = new BTiLocation();
+          struct.size.read(iprot);
+          struct.setSizeIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class getFrame_result implements org.apache.thrift.TBase<getFrame_result, getFrame_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFrame_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new getFrame_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new getFrame_resultTupleSchemeFactory());
+    }
+
+    public BTWorldFrame success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTWorldFrame.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFrame_result.class, metaDataMap);
+    }
+
+    public getFrame_result() {
+    }
+
+    public getFrame_result(
+      BTWorldFrame success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public getFrame_result(getFrame_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new BTWorldFrame(other.success);
+      }
+    }
+
+    public getFrame_result deepCopy() {
+      return new getFrame_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public BTWorldFrame getSuccess() {
+      return this.success;
+    }
+
+    public getFrame_result setSuccess(BTWorldFrame success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((BTWorldFrame)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof getFrame_result)
+        return this.equals((getFrame_result)that);
+      return false;
+    }
+
+    public boolean equals(getFrame_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(getFrame_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      getFrame_result typedOther = (getFrame_result)other;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("getFrame_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class getFrame_resultStandardSchemeFactory implements SchemeFactory {
+      public getFrame_resultStandardScheme getScheme() {
+        return new getFrame_resultStandardScheme();
+      }
+    }
+
+    private static class getFrame_resultStandardScheme extends StandardScheme<getFrame_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getFrame_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new BTWorldFrame();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getFrame_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class getFrame_resultTupleSchemeFactory implements SchemeFactory {
+      public getFrame_resultTupleScheme getScheme() {
+        return new getFrame_resultTupleScheme();
+      }
+    }
+
+    private static class getFrame_resultTupleScheme extends TupleScheme<getFrame_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, getFrame_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, getFrame_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new BTWorldFrame();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }

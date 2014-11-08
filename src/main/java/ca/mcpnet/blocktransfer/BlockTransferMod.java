@@ -19,6 +19,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -141,6 +142,12 @@ public class BlockTransferMod
     	// e.world.setBlockToAir(e.x, e.y, e.z);
     	e.world.createExplosion(null, e.x, e.y, e.z, 1.0f, true);
     	Block block = e.world.getBlock(e.x, e.y, e.z);
+    }
+    
+    @SubscribeEvent
+    public void onChunkEvent(ChunkEvent e) {
+    	if (e.getChunk().xPosition > 500)
+    		log.info(e.getClass().getName()+" "+e.getChunk().xPosition+" : "+e.getChunk().zPosition);
     }
 
 }

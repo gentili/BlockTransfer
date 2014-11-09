@@ -63,18 +63,18 @@ public class TestClient {
 					new BTBlock(blockid, 0));
 			
 			// Load a far off block
-			BTBlock block = client.getBlock(player.getWorldid(), new BTiVector(10000,0,0));
-			System.out.println(block);
+			// BTBlock block = client.getBlock(player.getWorldid(), new BTiVector(10000,0,0));
+			// System.out.println(block);
 			
 			// Grab a frame around the player
-			iloc.x -= 10;
-			iloc.y -= 10;
-			iloc.z -= 10;
-			BTiVector isize = new BTiVector(20,20,20);
+			iloc.x -= 4;
+			iloc.y -= 4;
+			iloc.z -= 4;
+			BTiVector isize = new BTiVector(8,8,8);
 			BTWorldFrame frame = client.getFrame(player.getWorldid(), iloc, isize);
 			System.out.println(frame);
 			
-			iloc.z += 30;
+			iloc.z += 8;
 			client.putFrame(player.getWorldid(), iloc, frame);
 			
 		} catch (TTransportException e) {

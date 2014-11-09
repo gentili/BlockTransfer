@@ -113,8 +113,13 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			for (int x = location.x;x < location.x+size.x;x++)
 				for (int y = location.y;y < location.y+size.y;y++)
 					for (int z = location.z;z < location.z+size.z;z++) {
-							os.writeShort(Block.getIdFromBlock(world.getBlock(x, y, z)));
-							os.writeByte(world.getBlockMetadata(x, y, z));
+							int blockid = Block.getIdFromBlock(world.getBlock(x, y, z));
+							int metadata = world.getBlockMetadata(x, y, z);
+							os.writeShort(blockid);
+							os.writeByte(metadata);
+							if (blockid == 54) {
+								System.out.println(metadata);
+							}
 					}
 		} catch (IOException e) {
 			throw new TException(e);
@@ -146,12 +151,42 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			for (int x = location.x;x < location.x+size.x;x++)
 				for (int y = location.y;y < location.y+size.y;y++)
 					for (int z = location.z;z < location.z+size.z;z++) {
-						world.setBlock(x, y, z, Block.getBlockById(is.readShort()), is.readByte(), 1+2);
+						int blockid = is.readShort();
+						int metadata = is.readByte();
+						if (blockid == 54) {
+							System.out.println(metadata+ "->" +world.getBlockMetadata(x, y, z));
+						}
+						world.setBlock(x, y, z, Block.getBlockById(blockid), metadata, 3);
+						// So some blocks in their onBlockAdd function do stupid shit 
+						// with their metadata.  In future we can likely edit the chunk
+						// data directly, but there's some nice properties you get from using
+						// these functions, like cleaning up old TileEntities and creating
+						// blank new ones and such
+						world.setBlockMetadataWithNotify(x, y, z, metadata, 3);
 					}
 		} catch (IOException e) {
 			throw new TException(e);
 		}
-		
+
+		/*
+		// Now update the tile entities
+		for (Iterator<BTTileEntity> itr = frame.getTilelistIterator(); itr.hasNext();) {
+			BTTileEntity tile = itr.next();
+			BTiVector loc = new BTiVector(location.x+tile.location.x,
+					location.y+tile.location.y,
+					location.z+tile.location.z);
+					if (world.getTileEntity(loc.x, loc.y, loc.z) == null) {
+						System.out.println("Missing tile!");
+					}
+		}
+		*/
+		// world.setTileEntity(p_147455_1_, p_147455_2_, p_147455_3_, p_147455_4_);
+		//if (tile != null) 
+		//{
+			//tile.
+			//System.out.println(tile);
+		//}
+
 	}
 
 }

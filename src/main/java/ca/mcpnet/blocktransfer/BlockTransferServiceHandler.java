@@ -47,6 +47,17 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 				ByteBuffer.wrap(bytearray.toByteArray()));
 	}
 	
+	private TileEntity BT2TileEntity(BTTileEntity bTtile) throws TException {
+		ByteArrayInputStream ba = new ByteArrayInputStream(bTtile.getNbt());
+		NBTTagCompound nbt;
+		try {
+			nbt = CompressedStreamTools.read(new DataInputStream(ba));
+		} catch (IOException e) {
+			throw new TException(e);
+		}
+		return TileEntity.createAndLoadEntity(nbt);
+	}
+	
 	/*
 	 * This is where the service endpoint handler functions start 
 	 */
@@ -117,9 +128,6 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 							int metadata = world.getBlockMetadata(x, y, z);
 							os.writeShort(blockid);
 							os.writeByte(metadata);
-							if (blockid == 54) {
-								System.out.println(metadata);
-							}
 					}
 		} catch (IOException e) {
 			throw new TException(e);
@@ -168,25 +176,22 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			throw new TException(e);
 		}
 
-		/*
 		// Now update the tile entities
 		for (Iterator<BTTileEntity> itr = frame.getTilelistIterator(); itr.hasNext();) {
-			BTTileEntity tile = itr.next();
-			BTiVector loc = new BTiVector(location.x+tile.location.x,
-					location.y+tile.location.y,
-					location.z+tile.location.z);
-					if (world.getTileEntity(loc.x, loc.y, loc.z) == null) {
-						System.out.println("Missing tile!");
-					}
+			BTTileEntity BTtile = itr.next();
+			BTiVector loc = new BTiVector(location.x+BTtile.location.x,
+					location.y+BTtile.location.y,
+					location.z+BTtile.location.z);
+			// Just do a quick check because we expect the right tileEntity
+			// to already exist here after placing the block.  We just want
+			// to replace it 
+		
+			if (world.getTileEntity(loc.x, loc.y, loc.z) == null) {
+				System.out.println("Missing tile!");
+			}
+			TileEntity tile = BT2TileEntity(BTtile);
+			world.setTileEntity(loc.x, loc.y, loc.z, tile);
 		}
-		*/
-		// world.setTileEntity(p_147455_1_, p_147455_2_, p_147455_3_, p_147455_4_);
-		//if (tile != null) 
-		//{
-			//tile.
-			//System.out.println(tile);
-		//}
-
 	}
-
+	
 }

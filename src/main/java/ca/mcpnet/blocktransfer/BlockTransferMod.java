@@ -131,6 +131,7 @@ public class BlockTransferMod
 		BTserver.serviceRequestQueue();
     }
     
+    /*
     @SubscribeEvent
     public void handle(PlayerInteractEvent e) {
     	if (e.action != e.action.LEFT_CLICK_BLOCK) {
@@ -144,5 +145,6 @@ public class BlockTransferMod
     	if (e.getChunk().xPosition > 500)
     		log.info(e.getClass().getName()+" "+e.getChunk().xPosition+" : "+e.getChunk().zPosition);
     }
+    */
 
 }

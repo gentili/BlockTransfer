@@ -26,6 +26,7 @@ public class TestClient {
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
+			System.out.println("Initial connect...");
 			String ver = client.getVersion();
 			System.out.println("ModVer: "+ ver);
 			// Find the id for the diamond block
@@ -73,6 +74,7 @@ public class TestClient {
 			BTiVector isize = new BTiVector(8,8,8);
 			BTWorldFrame frame = client.getFrame(player.getWorldid(), iloc, isize);
 			System.out.println(frame);
+			System.out.println(frame.getTilelistSize());
 			
 			iloc.z += 8;
 			client.putFrame(player.getWorldid(), iloc, frame);

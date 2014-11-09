@@ -136,12 +136,7 @@ public class BlockTransferMod
     	if (e.action != e.action.LEFT_CLICK_BLOCK) {
     		return;
     	}
-    	System.out.println(e.entityPlayer.getDisplayName()+
-    			" "+e.action.toString()+
-    			" "+e.x+" "+e.y+" "+e.z);
-    	// e.world.setBlockToAir(e.x, e.y, e.z);
-    	e.world.createExplosion(null, e.x, e.y, e.z, 1.0f, true);
-    	Block block = e.world.getBlock(e.x, e.y, e.z);
+    	e.world.func_147480_a(e.x, e.y, e.z,true);
     }
     
     @SubscribeEvent

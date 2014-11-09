@@ -1803,15 +1803,15 @@ public class BlockTransferService {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
-                  struct.success = new HashMap<Integer,String>(2*_map0.size);
-                  for (int _i1 = 0; _i1 < _map0.size; ++_i1)
+                  org.apache.thrift.protocol.TMap _map8 = iprot.readMapBegin();
+                  struct.success = new HashMap<Integer,String>(2*_map8.size);
+                  for (int _i9 = 0; _i9 < _map8.size; ++_i9)
                   {
-                    int _key2; // optional
-                    String _val3; // required
-                    _key2 = iprot.readI32();
-                    _val3 = iprot.readString();
-                    struct.success.put(_key2, _val3);
+                    int _key10; // optional
+                    String _val11; // required
+                    _key10 = iprot.readI32();
+                    _val11 = iprot.readString();
+                    struct.success.put(_key10, _val11);
                   }
                   iprot.readMapEnd();
                 }
@@ -1839,10 +1839,10 @@ public class BlockTransferService {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, struct.success.size()));
-            for (Map.Entry<Integer, String> _iter4 : struct.success.entrySet())
+            for (Map.Entry<Integer, String> _iter12 : struct.success.entrySet())
             {
-              oprot.writeI32(_iter4.getKey());
-              oprot.writeString(_iter4.getValue());
+              oprot.writeI32(_iter12.getKey());
+              oprot.writeString(_iter12.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -1873,10 +1873,10 @@ public class BlockTransferService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (Map.Entry<Integer, String> _iter5 : struct.success.entrySet())
+            for (Map.Entry<Integer, String> _iter13 : struct.success.entrySet())
             {
-              oprot.writeI32(_iter5.getKey());
-              oprot.writeString(_iter5.getValue());
+              oprot.writeI32(_iter13.getKey());
+              oprot.writeString(_iter13.getValue());
             }
           }
         }
@@ -1888,15 +1888,15 @@ public class BlockTransferService {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.success = new HashMap<Integer,String>(2*_map6.size);
-            for (int _i7 = 0; _i7 < _map6.size; ++_i7)
+            org.apache.thrift.protocol.TMap _map14 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.success = new HashMap<Integer,String>(2*_map14.size);
+            for (int _i15 = 0; _i15 < _map14.size; ++_i15)
             {
-              int _key8; // optional
-              String _val9; // required
-              _key8 = iprot.readI32();
-              _val9 = iprot.readString();
-              struct.success.put(_key8, _val9);
+              int _key16; // optional
+              String _val17; // required
+              _key16 = iprot.readI32();
+              _val17 = iprot.readString();
+              struct.success.put(_key16, _val17);
             }
           }
           struct.setSuccessIsSet(true);
@@ -2452,15 +2452,15 @@ public class BlockTransferService {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map10 = iprot.readMapBegin();
-                  struct.success = new HashMap<String,Integer>(2*_map10.size);
-                  for (int _i11 = 0; _i11 < _map10.size; ++_i11)
+                  org.apache.thrift.protocol.TMap _map18 = iprot.readMapBegin();
+                  struct.success = new HashMap<String,Integer>(2*_map18.size);
+                  for (int _i19 = 0; _i19 < _map18.size; ++_i19)
                   {
-                    String _key12; // optional
-                    int _val13; // required
-                    _key12 = iprot.readString();
-                    _val13 = iprot.readI32();
-                    struct.success.put(_key12, _val13);
+                    String _key20; // optional
+                    int _val21; // required
+                    _key20 = iprot.readString();
+                    _val21 = iprot.readI32();
+                    struct.success.put(_key20, _val21);
                   }
                   iprot.readMapEnd();
                 }
@@ -2488,10 +2488,10 @@ public class BlockTransferService {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.I32, struct.success.size()));
-            for (Map.Entry<String, Integer> _iter14 : struct.success.entrySet())
+            for (Map.Entry<String, Integer> _iter22 : struct.success.entrySet())
             {
-              oprot.writeString(_iter14.getKey());
-              oprot.writeI32(_iter14.getValue());
+              oprot.writeString(_iter22.getKey());
+              oprot.writeI32(_iter22.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -2522,10 +2522,10 @@ public class BlockTransferService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (Map.Entry<String, Integer> _iter15 : struct.success.entrySet())
+            for (Map.Entry<String, Integer> _iter23 : struct.success.entrySet())
             {
-              oprot.writeString(_iter15.getKey());
-              oprot.writeI32(_iter15.getValue());
+              oprot.writeString(_iter23.getKey());
+              oprot.writeI32(_iter23.getValue());
             }
           }
         }
@@ -2537,15 +2537,15 @@ public class BlockTransferService {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TMap _map16 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.I32, iprot.readI32());
-            struct.success = new HashMap<String,Integer>(2*_map16.size);
-            for (int _i17 = 0; _i17 < _map16.size; ++_i17)
+            org.apache.thrift.protocol.TMap _map24 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.I32, iprot.readI32());
+            struct.success = new HashMap<String,Integer>(2*_map24.size);
+            for (int _i25 = 0; _i25 < _map24.size; ++_i25)
             {
-              String _key18; // optional
-              int _val19; // required
-              _key18 = iprot.readString();
-              _val19 = iprot.readI32();
-              struct.success.put(_key18, _val19);
+              String _key26; // optional
+              int _val27; // required
+              _key26 = iprot.readString();
+              _val27 = iprot.readI32();
+              struct.success.put(_key26, _val27);
             }
           }
           struct.setSuccessIsSet(true);
@@ -3105,14 +3105,14 @@ public class BlockTransferService {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list20 = iprot.readListBegin();
-                  struct.success = new ArrayList<BTPlayer>(_list20.size);
-                  for (int _i21 = 0; _i21 < _list20.size; ++_i21)
+                  org.apache.thrift.protocol.TList _list28 = iprot.readListBegin();
+                  struct.success = new ArrayList<BTPlayer>(_list28.size);
+                  for (int _i29 = 0; _i29 < _list28.size; ++_i29)
                   {
-                    BTPlayer _elem22; // required
-                    _elem22 = new BTPlayer();
-                    _elem22.read(iprot);
-                    struct.success.add(_elem22);
+                    BTPlayer _elem30; // required
+                    _elem30 = new BTPlayer();
+                    _elem30.read(iprot);
+                    struct.success.add(_elem30);
                   }
                   iprot.readListEnd();
                 }
@@ -3140,9 +3140,9 @@ public class BlockTransferService {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (BTPlayer _iter23 : struct.success)
+            for (BTPlayer _iter31 : struct.success)
             {
-              _iter23.write(oprot);
+              _iter31.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -3173,9 +3173,9 @@ public class BlockTransferService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (BTPlayer _iter24 : struct.success)
+            for (BTPlayer _iter32 : struct.success)
             {
-              _iter24.write(oprot);
+              _iter32.write(oprot);
             }
           }
         }
@@ -3187,14 +3187,14 @@ public class BlockTransferService {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list25 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new ArrayList<BTPlayer>(_list25.size);
-            for (int _i26 = 0; _i26 < _list25.size; ++_i26)
+            org.apache.thrift.protocol.TList _list33 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new ArrayList<BTPlayer>(_list33.size);
+            for (int _i34 = 0; _i34 < _list33.size; ++_i34)
             {
-              BTPlayer _elem27; // required
-              _elem27 = new BTPlayer();
-              _elem27.read(iprot);
-              struct.success.add(_elem27);
+              BTPlayer _elem35; // required
+              _elem35 = new BTPlayer();
+              _elem35.read(iprot);
+              struct.success.add(_elem35);
             }
           }
           struct.setSuccessIsSet(true);

@@ -33,11 +33,9 @@ import org.slf4j.LoggerFactory;
 public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWorldFrame._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BTWorldFrame");
 
-  private static final org.apache.thrift.protocol.TField XLENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("xlength", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField YLENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("ylength", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField ZLENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("zlength", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField IDS_FIELD_DESC = new org.apache.thrift.protocol.TField("ids", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField METADATA_FIELD_DESC = new org.apache.thrift.protocol.TField("metadata", org.apache.thrift.protocol.TType.STRING, (short)5);
+  private static final org.apache.thrift.protocol.TField SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("size", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+  private static final org.apache.thrift.protocol.TField BLOCKDATA_FIELD_DESC = new org.apache.thrift.protocol.TField("blockdata", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField TILELIST_FIELD_DESC = new org.apache.thrift.protocol.TField("tilelist", org.apache.thrift.protocol.TType.LIST, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -45,19 +43,15 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     schemes.put(TupleScheme.class, new BTWorldFrameTupleSchemeFactory());
   }
 
-  public int xlength; // required
-  public int ylength; // required
-  public int zlength; // required
-  public ByteBuffer ids; // required
-  public ByteBuffer metadata; // required
+  public BTiVector size; // required
+  public ByteBuffer blockdata; // required
+  public List<BTTileEntity> tilelist; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    XLENGTH((short)1, "xlength"),
-    YLENGTH((short)2, "ylength"),
-    ZLENGTH((short)3, "zlength"),
-    IDS((short)4, "ids"),
-    METADATA((short)5, "metadata");
+    SIZE((short)1, "size"),
+    BLOCKDATA((short)2, "blockdata"),
+    TILELIST((short)3, "tilelist");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -72,16 +66,12 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // XLENGTH
-          return XLENGTH;
-        case 2: // YLENGTH
-          return YLENGTH;
-        case 3: // ZLENGTH
-          return ZLENGTH;
-        case 4: // IDS
-          return IDS;
-        case 5: // METADATA
-          return METADATA;
+        case 1: // SIZE
+          return SIZE;
+        case 2: // BLOCKDATA
+          return BLOCKDATA;
+        case 3: // TILELIST
+          return TILELIST;
         default:
           return null;
       }
@@ -122,23 +112,16 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
   }
 
   // isset id assignments
-  private static final int __XLENGTH_ISSET_ID = 0;
-  private static final int __YLENGTH_ISSET_ID = 1;
-  private static final int __ZLENGTH_ISSET_ID = 2;
-  private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.XLENGTH, new org.apache.thrift.meta_data.FieldMetaData("xlength", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.YLENGTH, new org.apache.thrift.meta_data.FieldMetaData("ylength", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.ZLENGTH, new org.apache.thrift.meta_data.FieldMetaData("zlength", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.IDS, new org.apache.thrift.meta_data.FieldMetaData("ids", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+    tmpMap.put(_Fields.SIZE, new org.apache.thrift.meta_data.FieldMetaData("size", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
+    tmpMap.put(_Fields.BLOCKDATA, new org.apache.thrift.meta_data.FieldMetaData("blockdata", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.METADATA, new org.apache.thrift.meta_data.FieldMetaData("metadata", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.TILELIST, new org.apache.thrift.meta_data.FieldMetaData("tilelist", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTTileEntity.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BTWorldFrame.class, metaDataMap);
   }
@@ -147,38 +130,33 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
   }
 
   public BTWorldFrame(
-    int xlength,
-    int ylength,
-    int zlength,
-    ByteBuffer ids,
-    ByteBuffer metadata)
+    BTiVector size,
+    ByteBuffer blockdata,
+    List<BTTileEntity> tilelist)
   {
     this();
-    this.xlength = xlength;
-    setXlengthIsSet(true);
-    this.ylength = ylength;
-    setYlengthIsSet(true);
-    this.zlength = zlength;
-    setZlengthIsSet(true);
-    this.ids = ids;
-    this.metadata = metadata;
+    this.size = size;
+    this.blockdata = blockdata;
+    this.tilelist = tilelist;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public BTWorldFrame(BTWorldFrame other) {
-    __isset_bitfield = other.__isset_bitfield;
-    this.xlength = other.xlength;
-    this.ylength = other.ylength;
-    this.zlength = other.zlength;
-    if (other.isSetIds()) {
-      this.ids = org.apache.thrift.TBaseHelper.copyBinary(other.ids);
+    if (other.isSetSize()) {
+      this.size = new BTiVector(other.size);
+    }
+    if (other.isSetBlockdata()) {
+      this.blockdata = org.apache.thrift.TBaseHelper.copyBinary(other.blockdata);
 ;
     }
-    if (other.isSetMetadata()) {
-      this.metadata = org.apache.thrift.TBaseHelper.copyBinary(other.metadata);
-;
+    if (other.isSetTilelist()) {
+      List<BTTileEntity> __this__tilelist = new ArrayList<BTTileEntity>();
+      for (BTTileEntity other_element : other.tilelist) {
+        __this__tilelist.add(new BTTileEntity(other_element));
+      }
+      this.tilelist = __this__tilelist;
     }
   }
 
@@ -188,192 +166,131 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
 
   @Override
   public void clear() {
-    setXlengthIsSet(false);
-    this.xlength = 0;
-    setYlengthIsSet(false);
-    this.ylength = 0;
-    setZlengthIsSet(false);
-    this.zlength = 0;
-    this.ids = null;
-    this.metadata = null;
+    this.size = null;
+    this.blockdata = null;
+    this.tilelist = null;
   }
 
-  public int getXlength() {
-    return this.xlength;
+  public BTiVector getSize() {
+    return this.size;
   }
 
-  public BTWorldFrame setXlength(int xlength) {
-    this.xlength = xlength;
-    setXlengthIsSet(true);
+  public BTWorldFrame setSize(BTiVector size) {
+    this.size = size;
     return this;
   }
 
-  public void unsetXlength() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __XLENGTH_ISSET_ID);
+  public void unsetSize() {
+    this.size = null;
   }
 
-  /** Returns true if field xlength is set (has been assigned a value) and false otherwise */
-  public boolean isSetXlength() {
-    return EncodingUtils.testBit(__isset_bitfield, __XLENGTH_ISSET_ID);
+  /** Returns true if field size is set (has been assigned a value) and false otherwise */
+  public boolean isSetSize() {
+    return this.size != null;
   }
 
-  public void setXlengthIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __XLENGTH_ISSET_ID, value);
-  }
-
-  public int getYlength() {
-    return this.ylength;
-  }
-
-  public BTWorldFrame setYlength(int ylength) {
-    this.ylength = ylength;
-    setYlengthIsSet(true);
-    return this;
-  }
-
-  public void unsetYlength() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __YLENGTH_ISSET_ID);
-  }
-
-  /** Returns true if field ylength is set (has been assigned a value) and false otherwise */
-  public boolean isSetYlength() {
-    return EncodingUtils.testBit(__isset_bitfield, __YLENGTH_ISSET_ID);
-  }
-
-  public void setYlengthIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __YLENGTH_ISSET_ID, value);
-  }
-
-  public int getZlength() {
-    return this.zlength;
-  }
-
-  public BTWorldFrame setZlength(int zlength) {
-    this.zlength = zlength;
-    setZlengthIsSet(true);
-    return this;
-  }
-
-  public void unsetZlength() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ZLENGTH_ISSET_ID);
-  }
-
-  /** Returns true if field zlength is set (has been assigned a value) and false otherwise */
-  public boolean isSetZlength() {
-    return EncodingUtils.testBit(__isset_bitfield, __ZLENGTH_ISSET_ID);
-  }
-
-  public void setZlengthIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ZLENGTH_ISSET_ID, value);
-  }
-
-  public byte[] getIds() {
-    setIds(org.apache.thrift.TBaseHelper.rightSize(ids));
-    return ids == null ? null : ids.array();
-  }
-
-  public ByteBuffer bufferForIds() {
-    return ids;
-  }
-
-  public BTWorldFrame setIds(byte[] ids) {
-    setIds(ids == null ? (ByteBuffer)null : ByteBuffer.wrap(ids));
-    return this;
-  }
-
-  public BTWorldFrame setIds(ByteBuffer ids) {
-    this.ids = ids;
-    return this;
-  }
-
-  public void unsetIds() {
-    this.ids = null;
-  }
-
-  /** Returns true if field ids is set (has been assigned a value) and false otherwise */
-  public boolean isSetIds() {
-    return this.ids != null;
-  }
-
-  public void setIdsIsSet(boolean value) {
+  public void setSizeIsSet(boolean value) {
     if (!value) {
-      this.ids = null;
+      this.size = null;
     }
   }
 
-  public byte[] getMetadata() {
-    setMetadata(org.apache.thrift.TBaseHelper.rightSize(metadata));
-    return metadata == null ? null : metadata.array();
+  public byte[] getBlockdata() {
+    setBlockdata(org.apache.thrift.TBaseHelper.rightSize(blockdata));
+    return blockdata == null ? null : blockdata.array();
   }
 
-  public ByteBuffer bufferForMetadata() {
-    return metadata;
+  public ByteBuffer bufferForBlockdata() {
+    return blockdata;
   }
 
-  public BTWorldFrame setMetadata(byte[] metadata) {
-    setMetadata(metadata == null ? (ByteBuffer)null : ByteBuffer.wrap(metadata));
+  public BTWorldFrame setBlockdata(byte[] blockdata) {
+    setBlockdata(blockdata == null ? (ByteBuffer)null : ByteBuffer.wrap(blockdata));
     return this;
   }
 
-  public BTWorldFrame setMetadata(ByteBuffer metadata) {
-    this.metadata = metadata;
+  public BTWorldFrame setBlockdata(ByteBuffer blockdata) {
+    this.blockdata = blockdata;
     return this;
   }
 
-  public void unsetMetadata() {
-    this.metadata = null;
+  public void unsetBlockdata() {
+    this.blockdata = null;
   }
 
-  /** Returns true if field metadata is set (has been assigned a value) and false otherwise */
-  public boolean isSetMetadata() {
-    return this.metadata != null;
+  /** Returns true if field blockdata is set (has been assigned a value) and false otherwise */
+  public boolean isSetBlockdata() {
+    return this.blockdata != null;
   }
 
-  public void setMetadataIsSet(boolean value) {
+  public void setBlockdataIsSet(boolean value) {
     if (!value) {
-      this.metadata = null;
+      this.blockdata = null;
+    }
+  }
+
+  public int getTilelistSize() {
+    return (this.tilelist == null) ? 0 : this.tilelist.size();
+  }
+
+  public java.util.Iterator<BTTileEntity> getTilelistIterator() {
+    return (this.tilelist == null) ? null : this.tilelist.iterator();
+  }
+
+  public void addToTilelist(BTTileEntity elem) {
+    if (this.tilelist == null) {
+      this.tilelist = new ArrayList<BTTileEntity>();
+    }
+    this.tilelist.add(elem);
+  }
+
+  public List<BTTileEntity> getTilelist() {
+    return this.tilelist;
+  }
+
+  public BTWorldFrame setTilelist(List<BTTileEntity> tilelist) {
+    this.tilelist = tilelist;
+    return this;
+  }
+
+  public void unsetTilelist() {
+    this.tilelist = null;
+  }
+
+  /** Returns true if field tilelist is set (has been assigned a value) and false otherwise */
+  public boolean isSetTilelist() {
+    return this.tilelist != null;
+  }
+
+  public void setTilelistIsSet(boolean value) {
+    if (!value) {
+      this.tilelist = null;
     }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case XLENGTH:
+    case SIZE:
       if (value == null) {
-        unsetXlength();
+        unsetSize();
       } else {
-        setXlength((Integer)value);
+        setSize((BTiVector)value);
       }
       break;
 
-    case YLENGTH:
+    case BLOCKDATA:
       if (value == null) {
-        unsetYlength();
+        unsetBlockdata();
       } else {
-        setYlength((Integer)value);
+        setBlockdata((ByteBuffer)value);
       }
       break;
 
-    case ZLENGTH:
+    case TILELIST:
       if (value == null) {
-        unsetZlength();
+        unsetTilelist();
       } else {
-        setZlength((Integer)value);
-      }
-      break;
-
-    case IDS:
-      if (value == null) {
-        unsetIds();
-      } else {
-        setIds((ByteBuffer)value);
-      }
-      break;
-
-    case METADATA:
-      if (value == null) {
-        unsetMetadata();
-      } else {
-        setMetadata((ByteBuffer)value);
+        setTilelist((List<BTTileEntity>)value);
       }
       break;
 
@@ -382,20 +299,14 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case XLENGTH:
-      return Integer.valueOf(getXlength());
+    case SIZE:
+      return getSize();
 
-    case YLENGTH:
-      return Integer.valueOf(getYlength());
+    case BLOCKDATA:
+      return getBlockdata();
 
-    case ZLENGTH:
-      return Integer.valueOf(getZlength());
-
-    case IDS:
-      return getIds();
-
-    case METADATA:
-      return getMetadata();
+    case TILELIST:
+      return getTilelist();
 
     }
     throw new IllegalStateException();
@@ -408,16 +319,12 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     }
 
     switch (field) {
-    case XLENGTH:
-      return isSetXlength();
-    case YLENGTH:
-      return isSetYlength();
-    case ZLENGTH:
-      return isSetZlength();
-    case IDS:
-      return isSetIds();
-    case METADATA:
-      return isSetMetadata();
+    case SIZE:
+      return isSetSize();
+    case BLOCKDATA:
+      return isSetBlockdata();
+    case TILELIST:
+      return isSetTilelist();
     }
     throw new IllegalStateException();
   }
@@ -435,48 +342,30 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     if (that == null)
       return false;
 
-    boolean this_present_xlength = true;
-    boolean that_present_xlength = true;
-    if (this_present_xlength || that_present_xlength) {
-      if (!(this_present_xlength && that_present_xlength))
+    boolean this_present_size = true && this.isSetSize();
+    boolean that_present_size = true && that.isSetSize();
+    if (this_present_size || that_present_size) {
+      if (!(this_present_size && that_present_size))
         return false;
-      if (this.xlength != that.xlength)
-        return false;
-    }
-
-    boolean this_present_ylength = true;
-    boolean that_present_ylength = true;
-    if (this_present_ylength || that_present_ylength) {
-      if (!(this_present_ylength && that_present_ylength))
-        return false;
-      if (this.ylength != that.ylength)
+      if (!this.size.equals(that.size))
         return false;
     }
 
-    boolean this_present_zlength = true;
-    boolean that_present_zlength = true;
-    if (this_present_zlength || that_present_zlength) {
-      if (!(this_present_zlength && that_present_zlength))
+    boolean this_present_blockdata = true && this.isSetBlockdata();
+    boolean that_present_blockdata = true && that.isSetBlockdata();
+    if (this_present_blockdata || that_present_blockdata) {
+      if (!(this_present_blockdata && that_present_blockdata))
         return false;
-      if (this.zlength != that.zlength)
-        return false;
-    }
-
-    boolean this_present_ids = true && this.isSetIds();
-    boolean that_present_ids = true && that.isSetIds();
-    if (this_present_ids || that_present_ids) {
-      if (!(this_present_ids && that_present_ids))
-        return false;
-      if (!this.ids.equals(that.ids))
+      if (!this.blockdata.equals(that.blockdata))
         return false;
     }
 
-    boolean this_present_metadata = true && this.isSetMetadata();
-    boolean that_present_metadata = true && that.isSetMetadata();
-    if (this_present_metadata || that_present_metadata) {
-      if (!(this_present_metadata && that_present_metadata))
+    boolean this_present_tilelist = true && this.isSetTilelist();
+    boolean that_present_tilelist = true && that.isSetTilelist();
+    if (this_present_tilelist || that_present_tilelist) {
+      if (!(this_present_tilelist && that_present_tilelist))
         return false;
-      if (!this.metadata.equals(that.metadata))
+      if (!this.tilelist.equals(that.tilelist))
         return false;
     }
 
@@ -496,52 +385,32 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     int lastComparison = 0;
     BTWorldFrame typedOther = (BTWorldFrame)other;
 
-    lastComparison = Boolean.valueOf(isSetXlength()).compareTo(typedOther.isSetXlength());
+    lastComparison = Boolean.valueOf(isSetSize()).compareTo(typedOther.isSetSize());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetXlength()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.xlength, typedOther.xlength);
+    if (isSetSize()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.size, typedOther.size);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetYlength()).compareTo(typedOther.isSetYlength());
+    lastComparison = Boolean.valueOf(isSetBlockdata()).compareTo(typedOther.isSetBlockdata());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetYlength()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ylength, typedOther.ylength);
+    if (isSetBlockdata()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.blockdata, typedOther.blockdata);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetZlength()).compareTo(typedOther.isSetZlength());
+    lastComparison = Boolean.valueOf(isSetTilelist()).compareTo(typedOther.isSetTilelist());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetZlength()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.zlength, typedOther.zlength);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetIds()).compareTo(typedOther.isSetIds());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetIds()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ids, typedOther.ids);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetMetadata()).compareTo(typedOther.isSetMetadata());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetMetadata()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.metadata, typedOther.metadata);
+    if (isSetTilelist()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tilelist, typedOther.tilelist);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -566,31 +435,27 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     StringBuilder sb = new StringBuilder("BTWorldFrame(");
     boolean first = true;
 
-    sb.append("xlength:");
-    sb.append(this.xlength);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("ylength:");
-    sb.append(this.ylength);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("zlength:");
-    sb.append(this.zlength);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("ids:");
-    if (this.ids == null) {
+    sb.append("size:");
+    if (this.size == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.ids, sb);
+      sb.append(this.size);
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("metadata:");
-    if (this.metadata == null) {
+    sb.append("blockdata:");
+    if (this.blockdata == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.metadata, sb);
+      org.apache.thrift.TBaseHelper.toString(this.blockdata, sb);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("tilelist:");
+    if (this.tilelist == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.tilelist);
     }
     first = false;
     sb.append(")");
@@ -599,16 +464,19 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
 
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
-    // alas, we cannot check 'xlength' because it's a primitive and you chose the non-beans generator.
-    // alas, we cannot check 'ylength' because it's a primitive and you chose the non-beans generator.
-    // alas, we cannot check 'zlength' because it's a primitive and you chose the non-beans generator.
-    if (ids == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'ids' was not present! Struct: " + toString());
+    if (size == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'size' was not present! Struct: " + toString());
     }
-    if (metadata == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'metadata' was not present! Struct: " + toString());
+    if (blockdata == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'blockdata' was not present! Struct: " + toString());
+    }
+    if (tilelist == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'tilelist' was not present! Struct: " + toString());
     }
     // check for sub-struct validity
+    if (size != null) {
+      size.validate();
+    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -621,8 +489,6 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bitfield = 0;
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);
@@ -647,42 +513,38 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
           break;
         }
         switch (schemeField.id) {
-          case 1: // XLENGTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.xlength = iprot.readI32();
-              struct.setXlengthIsSet(true);
+          case 1: // SIZE
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+              struct.size = new BTiVector();
+              struct.size.read(iprot);
+              struct.setSizeIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // YLENGTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.ylength = iprot.readI32();
-              struct.setYlengthIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 3: // ZLENGTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.zlength = iprot.readI32();
-              struct.setZlengthIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // IDS
+          case 2: // BLOCKDATA
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.ids = iprot.readBinary();
-              struct.setIdsIsSet(true);
+              struct.blockdata = iprot.readBinary();
+              struct.setBlockdataIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 5: // METADATA
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.metadata = iprot.readBinary();
-              struct.setMetadataIsSet(true);
+          case 3: // TILELIST
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                struct.tilelist = new ArrayList<BTTileEntity>(_list0.size);
+                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                {
+                  BTTileEntity _elem2; // required
+                  _elem2 = new BTTileEntity();
+                  _elem2.read(iprot);
+                  struct.tilelist.add(_elem2);
+                }
+                iprot.readListEnd();
+              }
+              struct.setTilelistIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -695,15 +557,6 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
       iprot.readStructEnd();
 
       // check for required fields of primitive type, which can't be checked in the validate method
-      if (!struct.isSetXlength()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'xlength' was not found in serialized data! Struct: " + toString());
-      }
-      if (!struct.isSetYlength()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'ylength' was not found in serialized data! Struct: " + toString());
-      }
-      if (!struct.isSetZlength()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'zlength' was not found in serialized data! Struct: " + toString());
-      }
       struct.validate();
     }
 
@@ -711,23 +564,26 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(XLENGTH_FIELD_DESC);
-      oprot.writeI32(struct.xlength);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(YLENGTH_FIELD_DESC);
-      oprot.writeI32(struct.ylength);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(ZLENGTH_FIELD_DESC);
-      oprot.writeI32(struct.zlength);
-      oprot.writeFieldEnd();
-      if (struct.ids != null) {
-        oprot.writeFieldBegin(IDS_FIELD_DESC);
-        oprot.writeBinary(struct.ids);
+      if (struct.size != null) {
+        oprot.writeFieldBegin(SIZE_FIELD_DESC);
+        struct.size.write(oprot);
         oprot.writeFieldEnd();
       }
-      if (struct.metadata != null) {
-        oprot.writeFieldBegin(METADATA_FIELD_DESC);
-        oprot.writeBinary(struct.metadata);
+      if (struct.blockdata != null) {
+        oprot.writeFieldBegin(BLOCKDATA_FIELD_DESC);
+        oprot.writeBinary(struct.blockdata);
+        oprot.writeFieldEnd();
+      }
+      if (struct.tilelist != null) {
+        oprot.writeFieldBegin(TILELIST_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.tilelist.size()));
+          for (BTTileEntity _iter3 : struct.tilelist)
+          {
+            _iter3.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -747,26 +603,37 @@ public class BTWorldFrame implements org.apache.thrift.TBase<BTWorldFrame, BTWor
     @Override
     public void write(org.apache.thrift.protocol.TProtocol prot, BTWorldFrame struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
-      oprot.writeI32(struct.xlength);
-      oprot.writeI32(struct.ylength);
-      oprot.writeI32(struct.zlength);
-      oprot.writeBinary(struct.ids);
-      oprot.writeBinary(struct.metadata);
+      struct.size.write(oprot);
+      oprot.writeBinary(struct.blockdata);
+      {
+        oprot.writeI32(struct.tilelist.size());
+        for (BTTileEntity _iter4 : struct.tilelist)
+        {
+          _iter4.write(oprot);
+        }
+      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, BTWorldFrame struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      struct.xlength = iprot.readI32();
-      struct.setXlengthIsSet(true);
-      struct.ylength = iprot.readI32();
-      struct.setYlengthIsSet(true);
-      struct.zlength = iprot.readI32();
-      struct.setZlengthIsSet(true);
-      struct.ids = iprot.readBinary();
-      struct.setIdsIsSet(true);
-      struct.metadata = iprot.readBinary();
-      struct.setMetadataIsSet(true);
+      struct.size = new BTiVector();
+      struct.size.read(iprot);
+      struct.setSizeIsSet(true);
+      struct.blockdata = iprot.readBinary();
+      struct.setBlockdataIsSet(true);
+      {
+        org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+        struct.tilelist = new ArrayList<BTTileEntity>(_list5.size);
+        for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+        {
+          BTTileEntity _elem7; // required
+          _elem7 = new BTTileEntity();
+          _elem7.read(iprot);
+          struct.tilelist.add(_elem7);
+        }
+      }
+      struct.setTilelistIsSet(true);
     }
   }
 

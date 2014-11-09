@@ -42,7 +42,8 @@ public class TestClient {
 				throw new RuntimeException("Could not find diamond block");
 			}
 			System.out.println("Diamond block id: "+blockid);
-			// Just pick the last player for now
+			
+			// Just pick the last player
 			List<BTPlayer> playerlist = client.getPlayerList();
 			BTPlayer player = null;
 			for (Iterator<BTPlayer> pitr = playerlist.iterator();pitr.hasNext();) {
@@ -52,17 +53,26 @@ public class TestClient {
 				throw new RuntimeException("Could not find a player");
 			}
 			System.out.println(player);
+			
+			// Put a diamond block above their head
 			BTiVector iloc = new BTiVector((int)player.location.getX(),
 					(int)player.location.getY(),
 					(int)player.location.getZ());
 			client.setBlock(player.getWorldid(), 
-					iloc, 
-					new BTBlock(blockid, 15));
-			client.setBlock(player.getWorldid(), 
-					iloc.setY(iloc.getY()+1), 
-					new BTBlock(blockid, 17));
+					iloc.setY(iloc.getY()+2), 
+					new BTBlock(blockid, 0));
+			
+			// Load a far off block
 			BTBlock block = client.getBlock(player.getWorldid(), new BTiVector(10000,0,0));
 			System.out.println(block);
+			
+			// Grab a frame around the player
+			iloc.x -= 10;
+			iloc.y -= 10;
+			iloc.z -= 10;
+			BTiVector isize = new BTiVector(20,20,20);
+			BTWorldFrame frame = client.getFrame(player.getWorldid(), iloc, isize);
+			System.out.println(frame);
 			
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block

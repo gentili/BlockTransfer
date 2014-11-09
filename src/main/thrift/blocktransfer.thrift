@@ -55,4 +55,6 @@ service BlockTransferService
 
     BTWorldFrame getFrame(1:i32 worldid 2:BTiVector location, 3:BTiVector size)
 
+    void putFrame(1:i32 worldid 2:BTiVector location, 3:BTWorldFrame frame)
+
 }

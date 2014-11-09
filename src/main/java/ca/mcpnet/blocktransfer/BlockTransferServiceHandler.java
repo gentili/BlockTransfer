@@ -1,6 +1,8 @@
 package ca.mcpnet.blocktransfer;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -129,6 +131,27 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			frame.addToTilelist(tile);
 		}
 		return frame;
+	}
+
+	@Override
+	public void putFrame(int worldid, BTiVector location, BTWorldFrame frame)
+			throws TException {
+		BTiVector size = frame.getSize();
+		WorldServer world = getWorld(worldid);
+
+		// Build the block byte buffers
+		ByteArrayInputStream ba = new ByteArrayInputStream(frame.getBlockdata());
+		DataInputStream is = new DataInputStream(ba);
+		try {
+			for (int x = location.x;x < location.x+size.x;x++)
+				for (int y = location.y;y < location.y+size.y;y++)
+					for (int z = location.z;z < location.z+size.z;z++) {
+						world.setBlock(x, y, z, Block.getBlockById(is.readShort()), is.readByte(), 1+2);
+					}
+		} catch (IOException e) {
+			throw new TException(e);
+		}
+		
 	}
 
 }

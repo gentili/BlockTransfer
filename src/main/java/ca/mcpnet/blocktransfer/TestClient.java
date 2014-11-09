@@ -74,6 +74,9 @@ public class TestClient {
 			BTWorldFrame frame = client.getFrame(player.getWorldid(), iloc, isize);
 			System.out.println(frame);
 			
+			iloc.z += 30;
+			client.putFrame(player.getWorldid(), iloc, frame);
+			
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

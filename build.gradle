@@ -9,39 +9,37 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        jcenter()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.2-rc1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+    }
+}
+
+apply plugin: 'shadow'
+
+shadow {
+    classifier = 'mod'
+    artifactSet {
+        include 'ca.mcpnet.blocktransfer' 
+    }
+    relocation {
+        pattern = 'org.apache'
+        shadedPattern = 'ca.mcpnet.blocktransfer.org.apache'
     }
 }
 
 apply plugin: 'forge'
 
 version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+group= "ca.mcpnet.blocktransfer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "blocktransfer"
 
 minecraft {
     version = "1.7.10-10.13.2.1230"
     runDir = "eclipse"
-}
-
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    compile "org.apache.thrift:libthrift:0.9.1"
-    compile "org.apache.thrift:libthrift:0.9.1:javadoc"
-    compile "org.slf4j:slf4j-simple:1.5.8"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
 
 processResources
@@ -63,3 +61,20 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+configurations {
+    external
+    compile.extendsFrom external
+}
+
+dependencies {
+    external "org.apache.thrift:libthrift:0.9.1"
+    compile "org.apache.thrift:libthrift:0.9.1:javadoc"
+    external "org.slf4j:slf4j-simple:1.5.8"
+}
+
+jar {
+    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it)}}
+}
+
+build.dependsOn shadowJar

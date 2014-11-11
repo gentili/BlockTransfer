@@ -34,7 +34,7 @@ minecraft {
 
 dependencies {
     compile "org.apache.thrift:libthrift:0.9.1"
-    compile "org.apache.thrift:libthrift:0.9.1:javadoc"
+    testCompile "org.apache.thrift:libthrift:0.9.1:javadoc"
     compile "org.slf4j:slf4j-simple:1.5.8"
 }
 
@@ -68,6 +68,7 @@ shadowJar {
     relocate 'org.apache.thrift', 'ca.mcpnet.blocktransfer.org.apache.thrift'
     relocate 'org.slf4j', 'ca.mcpnet.blocktransfer.org.slf4j'
     exclude 'GradleStart**'
+    exclude '.cache'
 }
 
 // ensure reobf happens

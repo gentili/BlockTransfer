@@ -65,6 +65,7 @@ public class BlockTransferMod
 	@EventHandler
 	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
 		log = e.getModLog();
+		log.info("THIS MOD IS LOADING!");
 	}
 	
 	@EventHandler
@@ -125,7 +126,7 @@ public class BlockTransferMod
     
     @SubscribeEvent
     public void handle(TickEvent e) {
-    	// Need to handle requests in the context of the main
+    	// Need to handle requests in -the context of the main
     	// server thread as they may request info from the world
     	// or modify the world
 		BTserver.serviceRequestQueue();

@@ -1,16 +1,16 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "blocktransfer",
+  "name": "Block Transfer Mod",
+  "description": "A Mod to allow the transfer of blocks in and out of servers",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Globnobulous"],
+  "credits": "MCP, Forge, and Apache Thrift teams",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["Forge"]
 }
 ]

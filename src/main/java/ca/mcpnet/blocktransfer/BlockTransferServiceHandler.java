@@ -133,16 +133,19 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			throw new TException(e);
 		}
 		
-		BTWorldFrame frame = new BTWorldFrame(size,
-				ByteBuffer.wrap(ba.toByteArray()),
-				new ArrayList<BTTileEntity>());
-		// Grab the tile entities in the box
+		// Grab all the tile entities in the box
+		ArrayList<BTTileEntity> entitylist = new ArrayList<BTTileEntity>();
 		List tileEntityList = world.func_147486_a(location.x, location.y, location.z, 
 				location.x+size.x, location.y+size.y, location.z+size.z);
 		for (Iterator itr = tileEntityList.iterator(); itr.hasNext();) {
 			BTTileEntity tile = TileEntity2BT(location,(TileEntity) itr.next());
-			frame.addToTilelist(tile);
+			entitylist.add(tile);
 		}
+
+		BTWorldFrame frame = new BTWorldFrame(size,
+				ByteBuffer.wrap(ba.toByteArray()),
+				entitylist);		
+
 		return frame;
 	}
 
@@ -182,13 +185,7 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			BTiVector loc = new BTiVector(location.x+BTtile.location.x,
 					location.y+BTtile.location.y,
 					location.z+BTtile.location.z);
-			// Just do a quick check because we expect the right tileEntity
-			// to already exist here after placing the block.  We just want
-			// to replace it 
 		
-			if (world.getTileEntity(loc.x, loc.y, loc.z) == null) {
-				System.out.println("Missing tile!");
-			}
 			TileEntity tile = BT2TileEntity(BTtile);
 			world.setTileEntity(loc.x, loc.y, loc.z, tile);
 		}

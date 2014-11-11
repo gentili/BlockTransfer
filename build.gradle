@@ -13,33 +13,29 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-        classpath 'eu.appsatori:gradle-fatjar-plugin:0.2-rc1'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
     }
 }
 
-apply plugin: 'shadow'
-
-shadow {
-    classifier = 'mod'
-    artifactSet {
-        include 'ca.mcpnet.blocktransfer' 
-    }
-    relocation {
-        pattern = 'org.apache'
-        shadedPattern = 'ca.mcpnet.blocktransfer.org.apache'
-    }
-}
-
+apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'forge'
+apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.0"
+
 group= "ca.mcpnet.blocktransfer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.0.1"
 archivesBaseName = "blocktransfer"
 
 minecraft {
     version = "1.7.10-10.13.2.1230"
     runDir = "eclipse"
+}
+
+dependencies {
+    compile "org.apache.thrift:libthrift:0.9.1"
+    compile "org.apache.thrift:libthrift:0.9.1:javadoc"
+    compile "org.slf4j:slf4j-simple:1.5.8"
 }
 
 processResources
@@ -62,19 +58,30 @@ processResources
     }
 }
 
-configurations {
-    external
-    compile.extendsFrom external
+shadowJar { 
+    classifier = 'shadow'
+    dependencies {
+        include (dependency("org.apache.thrift:libthrift:0.9.1"))
+        include (dependency("org.slf4j:slf4j-simple:1.5.8"))
+        include (dependency("org.slf4j:slf4j-api:1.5.8"))
+    }
+    relocate 'org.apache.thrift', 'ca.mcpnet.blocktransfer.org.apache.thrift'
+    relocate 'org.slf4j', 'ca.mcpnet.blocktransfer.org.slf4j'
+    exclude 'GradleStart**'
 }
 
-dependencies {
-    external "org.apache.thrift:libthrift:0.9.1"
-    compile "org.apache.thrift:libthrift:0.9.1:javadoc"
-    external "org.slf4j:slf4j-simple:1.5.8"
+// ensure reobf happens
+reobf.reobf(shadowJar) { spec ->
+    spec.classpath = sourceSets.main.compileClasspath;
 }
 
-jar {
-    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it)}}
+task deleteOrig(type: Delete) {
+    delete project.tasks.jar.archivePath.getPath()
 }
 
-build.dependsOn shadowJar
+task deleteShaded(type: Delete) {
+    delete project.tasks.shadowJar.archivePath.getPath()
+}
+
+shadowJar.dependsOn(deleteShaded)
+build.dependsOn(shadowJar)

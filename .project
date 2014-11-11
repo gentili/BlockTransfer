@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>BlockTransfer</name>
+	<comment/>
+	<projects/>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments/>
+		</buildCommand>
+	</buildSpec>
+	<linkedResources>
+		<link>
+			<name>common</name>
+			<type>2</type>
+			<location>/Users/gentili/git/BlockTransfer/common</location>
+		</link>
+		<link>
+			<name>jars</name>
+			<type>2</type>
+			<location>/Users/gentili/git/BlockTransfer/jars</location>
+		</link>
+		<link>
+			<name>lib</name>
+			<type>2</type>
+			<location>/Users/gentili/git/BlockTransfer/lib</location>
+		</link>
+		<link>
+			<name>src</name>
+			<type>2</type>
+			<location>/Users/gentili/git/BlockTransfer/src</location>
+		</link>
+	</linkedResources>
+</projectDescription>

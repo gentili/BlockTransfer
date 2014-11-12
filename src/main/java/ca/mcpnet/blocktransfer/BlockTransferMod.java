@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
+import net.minecraft.block.Block;
+import net.minecraftforge.common.MinecraftForge;
+
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.transport.TFramedTransport;
@@ -12,26 +14,14 @@ import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TNonblockingServerTransport;
 
 import ca.mcpnet.blocktransfer.BlockTransferService.Processor;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.Mod.PostInit;
+import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarted;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 
 @Mod(modid = BlockTransferMod.MODID, name = BlockTransferMod.MODNAME, version = BlockTransferMod.VERSION)
 public class BlockTransferMod
@@ -43,7 +33,7 @@ public class BlockTransferMod
     @Instance(value = BlockTransferMod.MODID)
     public static BlockTransferMod instance;
     
-	public static Logger log;
+	public static java.util.logging.Logger log;
 
 	private Thread BTserverthread;
 	private TBlockTransferServer BTserver;
@@ -62,28 +52,33 @@ public class BlockTransferMod
 	 * The following are Forge and FML specific methods
 	 */
 
-	@EventHandler
+	@PreInit
 	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
 		log = e.getModLog();
-		log.info("THIS MOD IS LOADING!");
+		log.info("PreInitialization");
 	}
 	
-	@EventHandler
+	@PostInit
 	public void onFMLPostInitializationEvent(FMLPostInitializationEvent e) {
 		// Build the block mapping list
 		blockidmap = new HashMap<Integer, String>();
 		blocknamemap = new HashMap<String, Integer>();
-		for (Iterator bitr = Block.blockRegistry.iterator();bitr.hasNext();) {
-			Block block = (Block) bitr.next();
-			String blockname = Block.blockRegistry.getNameForObject(block);
-			int blockid = Block.blockRegistry.getIDForObject(block);
+		for (int i = 0; i < Block.blocksList.length;i++) {
+			Block block = Block.blocksList[i];
+			
+			if (block == null)
+				continue;
+			if (block.getBlockName() == null)
+				continue;
+			String blockname = block.getBlockName();
+			int blockid = block.blockID;
 			log.info("Adding map " + blockid + "->" + blockname);
 			blockidmap.put(blockid, blockname);
 			blocknamemap.put(blockname, blockid);
 		}
 	}
         
-    @EventHandler
+    @ServerStarted
     public void onFMLServerStartedEvent(FMLServerStartedEvent e) {
     	log.info("Starting BlockTransfer server on port 9090");
     	
@@ -108,10 +103,10 @@ public class BlockTransferMod
 			throw new RuntimeException("Unable to start BlockTransfer server",ex);
 		}
         MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        // FMLCommonHandler.instance().bus().register(this);
     }
-    
-    @EventHandler
+    /*
+    @ServerStopping
     public void onFMLServerStoppingEvent(FMLServerStoppingEvent e) {
     	log.info("Stopping BlockTransfer server");
     	MinecraftForge.EVENT_BUS.unregister(this);
@@ -131,7 +126,7 @@ public class BlockTransferMod
     	// or modify the world
 		BTserver.serviceRequestQueue();
     }
-    
+    */
     /*
     @SubscribeEvent
     public void handle(PlayerInteractEvent e) {

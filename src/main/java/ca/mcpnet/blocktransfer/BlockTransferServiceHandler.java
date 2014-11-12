@@ -87,8 +87,8 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			Iterator pitr = world.playerEntities.iterator();
 			while (pitr.hasNext()) {
 				EntityPlayer player = (EntityPlayer) pitr.next();
-				list.add(new BTPlayer(player.getEntityId(),
-						player.getDisplayName(),
+				list.add(new BTPlayer(player.entityId,
+						player.getEntityName(),
 						world.provider.dimensionId,
 						new BTdVector(player.posX,player.posY,player.posZ)));
 			}
@@ -101,15 +101,15 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	public void setBlock(int worldid, BTiVector location, BTBlock block)
 			throws TException {
 		WorldServer world = getWorld(worldid);
-		world.setBlock(location.x, location.y, location.z, Block.getBlockById(block.getId()), block.getMetadata(), 1+2);
+		world.setBlockAndMetadata(location.x, location.y, location.z, block.getId(),block.getMetadata());
 	}
 	
 	@Override
 	public BTBlock getBlock(int worldid, BTiVector location)
 			throws TException {
 		WorldServer world = getWorld(worldid);
-		Block block = world.getBlock(location.x, location.y, location.z);
-		return new BTBlock(Block.getIdFromBlock(block),world.getBlockMetadata(location.x, location.y, location.z));
+		return new BTBlock(world.getBlockId(location.x, location.y, location.z),
+				world.getBlockMetadata(location.x, location.y, location.z));
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			for (int x = location.x;x < location.x+size.x;x++)
 				for (int y = location.y;y < location.y+size.y;y++)
 					for (int z = location.z;z < location.z+size.z;z++) {
-							int blockid = Block.getIdFromBlock(world.getBlock(x, y, z));
+							int blockid = world.getBlockId(x, y, z);
 							int metadata = world.getBlockMetadata(x, y, z);
 							os.writeShort(blockid);
 							os.writeByte(metadata);
@@ -135,7 +135,7 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 		
 		// Grab all the tile entities in the box
 		ArrayList<BTTileEntity> entitylist = new ArrayList<BTTileEntity>();
-		List tileEntityList = world.func_147486_a(location.x, location.y, location.z, 
+		List tileEntityList = world.getAllTileEntityInBox(location.x, location.y, location.z, 
 				location.x+size.x, location.y+size.y, location.z+size.z);
 		for (Iterator itr = tileEntityList.iterator(); itr.hasNext();) {
 			BTTileEntity tile = TileEntity2BT(location,(TileEntity) itr.next());
@@ -167,13 +167,13 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 						if (blockid == 54) {
 							System.out.println(metadata+ "->" +world.getBlockMetadata(x, y, z));
 						}
-						world.setBlock(x, y, z, Block.getBlockById(blockid), metadata, 3);
+						world.setBlockAndMetadata(x, y, z, blockid, metadata);
 						// So some blocks in their onBlockAdd function do stupid shit 
 						// with their metadata.  In future we can likely edit the chunk
 						// data directly, but there's some nice properties you get from using
 						// these functions, like cleaning up old TileEntities and creating
 						// blank new ones and such
-						world.setBlockMetadataWithNotify(x, y, z, metadata, 3);
+						world.setBlockMetadataWithNotify(x, y, z, metadata);
 					}
 		} catch (IOException e) {
 			throw new TException(e);
@@ -187,7 +187,7 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 					location.z+BTtile.location.z);
 		
 			TileEntity tile = BT2TileEntity(BTtile);
-			world.setTileEntity(loc.x, loc.y, loc.z, tile);
+			world.setBlockTileEntity(loc.x, loc.y, loc.z, tile);
 		}
 	}
 	

@@ -1,10 +1,12 @@
 package ca.mcpnet.blocktransfer;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -13,15 +15,24 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TNonblockingServerTransport;
 
+import com.google.common.collect.Sets;
+
 import ca.mcpnet.blocktransfer.BlockTransferService.Processor;
+import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarted;
+import cpw.mods.fml.common.Mod.ServerStopping;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 /*
  * This is the main Mod Class
@@ -80,6 +91,33 @@ public class BlockTransferMod
 			blockidmap.put(blockid, blockname);
 			blocknamemap.put(blockname, blockid);
 		}
+		
+        TickRegistry.registerTickHandler(new ITickHandler() {
+
+			@Override
+			public void tickStart(EnumSet<TickType> type, Object... tickData) {
+		    	// Need to handle requests in -the context of the main
+		    	// server thread as they may request info from the world
+		    	// or modify the world
+				BTserver.serviceRequestQueue();
+			}
+
+			@Override
+			public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+				// Do Nothing
+			}
+
+			@Override
+			public EnumSet<TickType> ticks() {
+				return EnumSet.of(TickType.SERVER);
+			}
+
+			@Override
+			public String getLabel() {
+				return "BlockTransfer serviceRequestQueue Handler";
+			}
+       
+        }, Side.SERVER);
 	}
         
     @ServerStarted
@@ -107,14 +145,11 @@ public class BlockTransferMod
 			throw new RuntimeException("Unable to start BlockTransfer server",ex);
 		}
         MinecraftForge.EVENT_BUS.register(this);
-        // FMLCommonHandler.instance().bus().register(this);
     }
-    /*
     @ServerStopping
     public void onFMLServerStoppingEvent(FMLServerStoppingEvent e) {
     	log.info("Stopping BlockTransfer server");
-    	MinecraftForge.EVENT_BUS.unregister(this);
-        FMLCommonHandler.instance().bus().unregister(this);
+    	// MinecraftForge.EVENT_BUS.unregister(this);
         BTserver.stop();
         try {
 			BTserverthread.join();
@@ -123,6 +158,7 @@ public class BlockTransferMod
 		}
     }
     
+    /*
     @SubscribeEvent
     public void handle(TickEvent e) {
     	// Need to handle requests in -the context of the main

@@ -1,11 +1,11 @@
-<project name="OreScanner" default="main">
+<project name="BlockTransfer" default="main">
 	<property environment="env"/>
 	<!-- Properties -->
 
 	<property name="build.dir" value="build"/>
 	<property name="src.dir" value="."/>
-	<property name="lang.dir" value="../orescanner.localization"/>
-	<property name="resources.dir" value="orescanner_resources"/>
+	<property name="lang.dir" value="../blocktransfer.localization"/>
+	<property name="resources.dir" value="resources"/>
 
 	<property name="download.dir" value="download"/>
 
@@ -157,7 +157,16 @@
 
 	</target>
 
+        <target name="bundlejars" depends="package">
+		<delete dir="tmp"/>
+		<mkdir dir="tmp"/>
+                <exec executable="sh" osfamily="unix">
+                    <arg value="bundlejars.sh"/>
+                    <arg value = "../${jar.dir}/${ant.project.name}-${mc.version}-${project.version.full}.jar"/>
+                </exec>
+        </target>
+
 	<!-- Default target to run -->
-	<target name="main" depends="package"/>
+	<target name="main" depends="bundlejars"/>
 
 </project>

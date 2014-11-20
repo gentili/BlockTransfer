@@ -1,4 +1,4 @@
-package ca.mcpnet.blocktransfer;
+package ca.mcpnet.blocktransfer.utils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +13,11 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
+import ca.mcpnet.blocktransfer.BTBlock;
+import ca.mcpnet.blocktransfer.BTPlayer;
+import ca.mcpnet.blocktransfer.BTWorldFrame;
+import ca.mcpnet.blocktransfer.BTiVector;
+import ca.mcpnet.blocktransfer.BlockTransferService;
 import ca.mcpnet.blocktransfer.BlockTransferService.Client;
 
 public class TestClient {
@@ -35,7 +40,7 @@ public class TestClient {
 			for (Iterator<Entry<Integer, String>> bitr = blockidmap.entrySet().iterator();bitr.hasNext();) {
 				Entry<Integer, String> block = bitr.next();
 				// System.out.println(block.getKey() + "->" + block.getValue());
-				if (block.getValue().contentEquals("minecraft:diamond_block")) {
+				if (block.getValue().contentEquals("tile.blockDiamond")) { // ("minecraft:diamond_block")) {
 					blockid = block.getKey();
 				}
 			}

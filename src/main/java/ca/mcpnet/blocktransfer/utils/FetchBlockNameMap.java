@@ -1,7 +1,6 @@
 package ca.mcpnet.blocktransfer.utils;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
@@ -11,11 +10,9 @@ import java.util.Map.Entry;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFileTransport;
 import org.apache.thrift.transport.TFramedTransport;
-import org.apache.thrift.transport.TIOStreamTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
@@ -27,9 +24,8 @@ import ca.mcpnet.blocktransfer.BTiVector;
 import ca.mcpnet.blocktransfer.BlockTransferService;
 import ca.mcpnet.blocktransfer.BlockTransferService.Client;
 import ca.mcpnet.blocktransfer.BlockTransferService.Iface;
-import ca.mcpnet.blocktransfer.BlockTransferService.getBlockIdMap_result;
 
-public class FetchBlockMap {
+public class FetchBlockNameMap {
 
 	public static void main(String[] args) {
 		TTransport transport;
@@ -41,27 +37,12 @@ public class FetchBlockMap {
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
 			System.out.print("Connect...");
-			Map<Integer, String> blockidmap = client.getBlockIdMap();
+			Map<String, Integer> blocknamemap = client.getBlockNameMap();
 			
-			TIOStreamTransport JSONtransport = new TIOStreamTransport(
-					new FileOutputStream("BlockMap.Direwolf.json"));
-			JSONtransport.open();
-			TJSONProtocol JSONprotocol = new TJSONProtocol(JSONtransport);
-			BlockTransferService service = new BlockTransferService();
-			getBlockIdMap_result blockidmap_result = new getBlockIdMap_result();
-			blockidmap_result.success = blockidmap;
-			blockidmap_result.write(JSONprotocol);
-			JSONtransport.close();
+			json.saveBlockNameMap(blocknamemap, "Direwolf.BlockNameMap.json");
 			System.out.println("Done.");
 			
-		} catch (TTransportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

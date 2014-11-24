@@ -38,6 +38,8 @@ struct BTWorldFrame {
 typedef map<i32,string> BlockIdMap
 typedef map<string,i32> BlockNameMap
 typedef list<BTPlayer> PlayerList
+typedef map<i32,string> ItemIdMap
+typedef map<string,i32> ItemNameMap
 
 service BlockTransferService
 {
@@ -57,4 +59,7 @@ service BlockTransferService
 
     void putFrame(1:i32 worldid 2:BTiVector location, 3:BTWorldFrame frame)
 
+    ItemIdMap getItemIdMap()
+
+    ItemNameMap getItemNameMap()
 }

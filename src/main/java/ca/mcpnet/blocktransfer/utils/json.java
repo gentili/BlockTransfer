@@ -40,7 +40,7 @@ public final class json {
 	 * @throws TTransportException
 	 * @throws TException
 	 */
-	public static Map<Integer, String> loadBlockIdMap(String filename)
+	public static Map<Integer, String> loadIdMap(String filename)
 			throws FileNotFoundException, TTransportException, TException {
 		TIOStreamTransport JSONtransport = new TIOStreamTransport(
 				new FileInputStream(filename));
@@ -60,7 +60,7 @@ public final class json {
 	 * @throws TTransportException
 	 * @throws TException
 	 */
-	public static void saveBlockIdMap(Map<Integer, String> blockidmap, String filename)
+	public static void saveIdMap(Map<Integer, String> blockidmap, String filename)
 			throws FileNotFoundException, TTransportException, TException {
 		TIOStreamTransport JSONtransport = new TIOStreamTransport(
 				new FileOutputStream(filename));
@@ -79,7 +79,7 @@ public final class json {
 	 * @throws TException
 	 * @throws FileNotFoundException
 	 */
-	public static Map<String, Integer> loadBlockNameMap(String filename) throws TException, FileNotFoundException {
+	public static Map<String, Integer> loadNameMap(String filename) throws TException, FileNotFoundException {
 		TIOStreamTransport JSONtransport = new TIOStreamTransport(
 				new FileInputStream(filename));
 		JSONtransport.open();
@@ -97,7 +97,7 @@ public final class json {
 	 * @throws FileNotFoundException
 	 * @throws TException
 	 */
-	public static void saveBlockNameMap(Map<String,Integer> blocknamemap,String filename)
+	public static void saveNameMap(Map<String,Integer> blocknamemap,String filename)
 			throws FileNotFoundException, TException {
 		TIOStreamTransport transport = new TIOStreamTransport(
 				new FileOutputStream(filename));

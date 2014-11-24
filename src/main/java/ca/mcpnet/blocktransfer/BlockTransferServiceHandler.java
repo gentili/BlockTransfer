@@ -187,5 +187,15 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 			world.setTileEntity(loc.x, loc.y, loc.z, tile);
 		}
 	}
+
+	@Override
+	public Map<Integer, String> getItemIdMap() throws TException {
+		return BlockTransferMod.instance.getItemIdMap();
+	}
+
+	@Override
+	public Map<String, Integer> getItemNameMap() throws TException {
+		return BlockTransferMod.instance.getItemNameMap();
+	}
 	
 }

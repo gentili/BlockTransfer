@@ -56,6 +56,8 @@ public class BlockTransferMod
 	private TBlockTransferServer BTserver;
 	private Map<Integer, String> blockidmap;
 	private Map<String, Integer> blocknamemap;
+	private Map<Integer, String> itemidmap;
+	private Map<String, Integer> itemnamemap;
 	
 	public Map<Integer, String> getBlockIdMap() {
 		return blockidmap;
@@ -63,6 +65,14 @@ public class BlockTransferMod
 	
 	public Map<String, Integer> getBlockNameMap() {
 		return blocknamemap;
+	}
+	
+	public Map<Integer, String> getItemIdMap() {
+		return itemidmap;
+	}
+    
+	public Map<String, Integer> getItemNameMap() {
+		return itemnamemap;
 	}
 
 	/*
@@ -93,11 +103,15 @@ public class BlockTransferMod
 		}
 		
 		// Build the item mapping list
+		itemidmap = new HashMap<Integer, String>();
+		itemnamemap = new HashMap<String, Integer>();
 		for (Iterator iitr = Item.itemRegistry.iterator();iitr.hasNext();) {
 			Item item = (Item) iitr.next();
 			String itemname = Item.itemRegistry.getNameForObject(item);
 			int itemid = Item.itemRegistry.getIDForObject(item);
 			log.info("Adding item " + itemid + "->" + itemname);
+			itemidmap.put(itemid, itemname);
+			itemnamemap.put(itemname, itemid);
 		}
 	}
         
@@ -149,7 +163,7 @@ public class BlockTransferMod
     	// or modify the world
 		BTserver.serviceRequestQueue();
     }
-    
+
     /*
     @SubscribeEvent
     public void handle(PlayerInteractEvent e) {

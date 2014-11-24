@@ -39,7 +39,7 @@ public class FetchBlockIdMap {
 			System.out.print("Connect...");
 			Map<Integer, String> blockidmap = client.getBlockIdMap();
 			
-			json.saveBlockIdMap(blockidmap, "Direwolf.BlockIdMap.json");
+			json.saveIdMap(blockidmap, "Direwolf.BlockIdMap.json");
 			System.out.println("Done.");
 			
 		} catch (Exception e) {

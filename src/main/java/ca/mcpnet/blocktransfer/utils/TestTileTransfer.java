@@ -66,9 +66,9 @@ public class TestTileTransfer {
 		*/
 		
 		// Load src block id map
-		Map<Integer, String> src_blkidmap = json.loadBlockIdMap("Mindcrack.BlockIdMap.json"); 		
+		Map<Integer, String> src_blkidmap = json.loadIdMap("Mindcrack.BlockIdMap.json"); 		
 		// Load dst block id map
-		Map<String, Integer> dst_blknamemap = json.loadBlockNameMap("Direwolf.BlockNameMap.json"); 
+		Map<String, Integer> dst_blknamemap = json.loadNameMap("Direwolf.BlockNameMap.json"); 
 		// Load block2block map
 		HashMap<String, String> blkmap = json.loadBlockMap("Mindcrack.Direwolf.BlockMap.json");
 		// Fetch the frame

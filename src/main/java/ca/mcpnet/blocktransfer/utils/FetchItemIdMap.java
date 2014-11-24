@@ -1,6 +1,7 @@
 package ca.mcpnet.blocktransfer.utils;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,27 +26,22 @@ import ca.mcpnet.blocktransfer.BlockTransferService;
 import ca.mcpnet.blocktransfer.BlockTransferService.Client;
 import ca.mcpnet.blocktransfer.BlockTransferService.Iface;
 
-public class FetchBlockNameMap {
+public class FetchItemIdMap {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws TException, FileNotFoundException {
 		TTransport transport;
 		
-		try {
-			transport = new TFramedTransport(new TSocket("direwolf.mcpnet.ca",9090));
-			transport.open();
-			TProtocol protocol = new TBinaryProtocol(transport);
-			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
-			
-			System.out.print("Connect...");
-			Map<String, Integer> blocknamemap = client.getBlockNameMap();
-			
-			json.saveNameMap(blocknamemap, "Direwolf.BlockNameMap.json");
-			System.out.println("Done.");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		transport = new TFramedTransport(new TSocket("localhost",9090));
+		transport.open();
+		TProtocol protocol = new TBinaryProtocol(transport);
+		BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 		
+		System.out.print("Connect...");
+		Map<Integer, String> itemidmap = client.getItemIdMap();
+		System.out.print("Save...");
+		
+		json.saveIdMap(itemidmap, "temp.ItemIdMap.json");
+		System.out.println("Done.");		
 	}
 
 }

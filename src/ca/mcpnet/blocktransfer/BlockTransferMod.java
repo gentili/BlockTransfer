@@ -63,14 +63,9 @@ public class BlockTransferMod
 		return blocknamemap;
 	}
 
-	/*
-	 * The following are Forge and FML specific methods
-	 */
-
 	@PreInit
 	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
 		log = e.getModLog();
-		log.info("PreInitialization");
 	}
 	
 	@PostInit

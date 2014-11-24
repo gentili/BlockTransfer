@@ -19,6 +19,15 @@ import com.google.common.collect.Sets;
 
 import ca.mcpnet.blocktransfer.BlockTransferService.Processor;
 import cpw.mods.fml.common.ITickHandler;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.ChunkEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
@@ -54,6 +63,8 @@ public class BlockTransferMod
 	private TBlockTransferServer BTserver;
 	private Map<Integer, String> blockidmap;
 	private Map<String, Integer> blocknamemap;
+	private Map<Integer, String> itemidmap;
+	private Map<String, Integer> itemnamemap;
 	
 	public Map<Integer, String> getBlockIdMap() {
 		return blockidmap;
@@ -61,6 +72,14 @@ public class BlockTransferMod
 	
 	public Map<String, Integer> getBlockNameMap() {
 		return blocknamemap;
+	}
+	
+	public Map<Integer, String> getItemIdMap() {
+		return itemidmap;
+	}
+    
+	public Map<String, Integer> getItemNameMap() {
+		return itemnamemap;
 	}
 
 	@PreInit
@@ -91,6 +110,27 @@ public class BlockTransferMod
 			blocknamemap.put(blockname, blockid);
 		}
 		
+		// Build the item mapping list
+		itemidmap = new HashMap<Integer, String>();
+		itemnamemap = new HashMap<String, Integer>();
+		for (int i = 0; i < Item.itemsList.length;i++) {
+			Item item = Item.itemsList[i];
+			
+			if (item == null)
+				continue;
+			else if (item.itemID == 0)
+				continue;
+			String itemname = item.getClass().getName();
+					
+			if (item.getItemName() != null)
+				itemname += ":"+item.getItemName();
+			
+			int itemid = item.itemID;
+			log.info("Adding item " + itemid + "->" + itemname);
+			itemidmap.put(itemid, itemname);
+			itemnamemap.put(itemname, itemid);
+		}
+				
         TickRegistry.registerTickHandler(new ITickHandler() {
 
 			@Override
@@ -145,6 +185,7 @@ public class BlockTransferMod
 		}
         MinecraftForge.EVENT_BUS.register(this);
     }
+    
     @ServerStopping
     public void onFMLServerStoppingEvent(FMLServerStoppingEvent e) {
     	log.info("Stopping BlockTransfer server");
@@ -166,6 +207,7 @@ public class BlockTransferMod
 		BTserver.serviceRequestQueue();
     }
     */
+    
     /*
     @SubscribeEvent
     public void handle(PlayerInteractEvent e) {

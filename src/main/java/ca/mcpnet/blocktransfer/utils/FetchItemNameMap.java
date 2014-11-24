@@ -26,7 +26,7 @@ import ca.mcpnet.blocktransfer.BlockTransferService;
 import ca.mcpnet.blocktransfer.BlockTransferService.Client;
 import ca.mcpnet.blocktransfer.BlockTransferService.Iface;
 
-public class FetchItemIdMap {
+public class FetchItemNameMap {
 
 	public static void main(String[] args) throws TException, FileNotFoundException {
 		TTransport transport;
@@ -37,9 +37,9 @@ public class FetchItemIdMap {
 		BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 		
 		System.out.print("Connect...");
-		Map<Integer, String> itemidmap = client.getItemIdMap();
+		Map<String, Integer> itemnamemap = client.getItemNameMap();
 		System.out.print("Save...");
-		json.saveIdMap(itemidmap, "Direwolf.ItemIdMap.json");
+		json.saveNameMap(itemnamemap, "Direwolf.ItemNameMap.json");
 		System.out.println("Done.");		
 	}
 

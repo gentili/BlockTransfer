@@ -83,9 +83,13 @@ public class BlockTransferMod
 			
 			if (block == null)
 				continue;
-			if (block.getBlockName() == null)
+			else if (block.blockID == 0)
 				continue;
-			String blockname = block.getBlockName();
+			String blockname = block.getClass().getName();
+			
+			if (block.getBlockName() != null)
+				blockname += ":"+block.getBlockName();
+			
 			int blockid = block.blockID;
 			log.info("Adding map " + blockid + "->" + blockname);
 			blockidmap.put(blockid, blockname);

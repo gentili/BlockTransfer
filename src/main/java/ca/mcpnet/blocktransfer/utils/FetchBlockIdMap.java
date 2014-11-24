@@ -31,7 +31,7 @@ public class FetchBlockIdMap {
 		TTransport transport;
 		
 		try {
-			transport = new TFramedTransport(new TSocket("mindcrack.mcpnet.ca",9090));
+			transport = new TFramedTransport(new TSocket("direwolf.mcpnet.ca",9090));
 			transport.open();
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
@@ -39,7 +39,7 @@ public class FetchBlockIdMap {
 			System.out.print("Connect...");
 			Map<Integer, String> blockidmap = client.getBlockIdMap();
 			
-			json.saveBlockIdMap(blockidmap, "Mindcrack.BlockIdMap.json");
+			json.saveBlockIdMap(blockidmap, "Direwolf.BlockIdMap.json");
 			System.out.println("Done.");
 			
 		} catch (Exception e) {

@@ -32,6 +32,8 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.NetworkCheckHandler;
+import cpw.mods.fml.relauncher.Side;
 
 /*
  * This is the main Mod Class
@@ -65,11 +67,14 @@ public class BlockTransferMod
 	/*
 	 * The following are Forge and FML specific methods
 	 */
+	@NetworkCheckHandler
+	public static boolean networkCheckHandler(Map<String, String> map, Side side) {
+		return true;
+	}
 
 	@EventHandler
 	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
 		log = e.getModLog();
-		log.info("THIS MOD IS LOADING!");
 	}
 	
 	@EventHandler

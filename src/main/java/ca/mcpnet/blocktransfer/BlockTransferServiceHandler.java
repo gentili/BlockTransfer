@@ -164,9 +164,6 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 					for (int z = location.z;z < location.z+size.z;z++) {
 						int blockid = is.readShort();
 						int metadata = is.readByte();
-						if (blockid == 54) {
-							System.out.println(metadata+ "->" +world.getBlockMetadata(x, y, z));
-						}
 						world.setBlock(x, y, z, Block.getBlockById(blockid), metadata, 3);
 						// So some blocks in their onBlockAdd function do stupid shit 
 						// with their metadata.  In future we can likely edit the chunk

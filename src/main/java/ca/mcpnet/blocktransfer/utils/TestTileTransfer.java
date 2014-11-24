@@ -10,8 +10,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -27,13 +30,14 @@ import ca.mcpnet.blocktransfer.BTdVector;
 import ca.mcpnet.blocktransfer.BTiVector;
 import ca.mcpnet.blocktransfer.BlockTransferService;
 
-public class TransferBlocks {
+public class TestTileTransfer {
 
 	public static void main(String[] args) throws TException, IOException {
 		String srcURL = "mindcrack.mcpnet.ca";
 		String dstURL = "direwolf.mcpnet.ca";
 		
 		// Connect to src client
+		/*
 		System.out.println("Src client connect...");
 		TFramedTransport src_transport = new TFramedTransport(new TSocket(srcURL,9090));
 		src_transport.open();
@@ -59,7 +63,7 @@ public class TransferBlocks {
 		iloc.z -= 4;
 		BTiVector isize = new BTiVector(8,8,8);
 		BTWorldFrame frame = src_client.getFrame(player.getWorldid(), iloc, isize);
-
+		*/
 		
 		// Load src block id map
 		Map<Integer, String> src_blkidmap = json.loadBlockIdMap("Mindcrack.BlockIdMap.json"); 		
@@ -68,9 +72,20 @@ public class TransferBlocks {
 		// Load block2block map
 		HashMap<String, String> blkmap = json.loadBlockMap("Mindcrack.Direwolf.BlockMap.json");
 		// Fetch the frame
-		// BTWorldFrame frame = binary.loadFrame("Mindcrack.frame.bin");
+		BTWorldFrame frame = binary.loadFrame("Mindcrack.frame.bin");
 		// remap src blocks to dst blocks
+		for (Iterator<BTTileEntity> btitr = frame.tilelist.iterator();btitr.hasNext();) {
+			BTTileEntity bttile = btitr.next();
+			NBTTagCompound bnt = CompressedStreamTools.read(new DataInputStream(new ByteArrayInputStream(bttile.getNbt())));
+			Set keys = bnt.func_150296_c();
+			System.out.println("---- "+bnt.getTag("id")+bnt);
+			for (Iterator titr = keys.iterator();titr.hasNext();) {
+				Object tilekey = titr.next();
+				System.out.println(tilekey);
+			}
+		}
 		
+		/*
 		// Direct id to id map
 		HashMap<Integer,Integer> blkidmap = new HashMap<Integer, Integer>();
 		blkidmap.put(0, 0); // Add air block
@@ -131,6 +146,7 @@ public class TransferBlocks {
 			BTTileEntity tile = itr.next();
 		}
 		dst_client.putFrame(player.getWorldid(), iloc, frame);
+		*/
 	}
 	
 

@@ -15,6 +15,7 @@ import ca.mcpnet.blocktransfer.BlockTransferService.Processor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -89,6 +90,14 @@ public class BlockTransferMod
 			log.info("Adding map " + blockid + "->" + blockname);
 			blockidmap.put(blockid, blockname);
 			blocknamemap.put(blockname, blockid);
+		}
+		
+		// Build the item mapping list
+		for (Iterator iitr = Item.itemRegistry.iterator();iitr.hasNext();) {
+			Item item = (Item) iitr.next();
+			String itemname = Item.itemRegistry.getNameForObject(item);
+			int itemid = Item.itemRegistry.getIDForObject(item);
+			log.info("Adding item " + itemid + "->" + itemname);
 		}
 	}
         

@@ -17,7 +17,7 @@ import ca.mcpnet.blocktransfer.BlockTransferService;
 public final class FetchFrame {
 
 	public static void main(String[] args) throws TException, IOException {
-		TFramedTransport src_transport = new TFramedTransport(new TSocket("mindcrack.mcpnet.ca",9090));
+		TFramedTransport src_transport = new TFramedTransport(new TSocket("localhost",9090));
 		src_transport.open();
 		BlockTransferService.Client src_client = new BlockTransferService.Client(new TBinaryProtocol(src_transport));
 		List<BTPlayer> src_plyrs = src_client.getPlayerList();
@@ -40,7 +40,7 @@ public final class FetchFrame {
 		iloc.z -= 4;
 		BTiVector isize = new BTiVector(8,8,8);
 		BTWorldFrame frame = src_client.getFrame(player.getWorldid(), iloc, isize);
-		binary.saveFrame(frame, "Mindcrack.frame.bin");
+		binary.saveFrame(frame, "Direwolf.frame.bin");
 	}
 
 }

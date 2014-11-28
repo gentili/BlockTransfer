@@ -31,14 +31,14 @@ public class FetchBlockNameMap {
 		TTransport transport;
 		
 		try {
-			transport = new TFramedTransport(new TSocket("direwolf.mcpnet.ca",9090));
+			transport = new TFramedTransport(new TSocket("localhost",9090));
 			transport.open();
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
 			System.out.print("Connect...");
 			Map<String, Integer> blocknamemap = client.getBlockNameMap();
-			
+			System.out.print("Save...");
 			json.saveNameMap(blocknamemap, "Direwolf.BlockNameMap.json");
 			System.out.println("Done.");
 			

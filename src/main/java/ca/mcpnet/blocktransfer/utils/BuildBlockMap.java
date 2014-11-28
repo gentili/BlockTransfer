@@ -16,8 +16,8 @@ public class BuildBlockMap {
 
 	public static void main(String[] args) throws IOException, TException {
 		
-		Map<Integer, String> dstlist = json.loadIdMap("Direwolf.BlockIdMap.json");
-		Map<Integer, String> srclist = json.loadIdMap("Mindcrack.BlockIdMap.json");
+		Map<Integer, String> dstlist = json.loadIntStringMap("Direwolf.BlockIdMap.json");
+		Map<Integer, String> srclist = json.loadIntStringMap("Mindcrack.BlockIdMap.json");
 
 		JsonObject blockmap = new JsonObject();
 		for (int i = 0; i < 4096; i++) {

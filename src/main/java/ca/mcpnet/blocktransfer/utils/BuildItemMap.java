@@ -17,9 +17,9 @@ public class BuildItemMap {
 	public static void main(String[] args) throws IOException, TException {
 		
 		System.out.print("Loading src map...");
-		Map<Integer, String> srclist = json.loadIdMap("Mindcrack.ItemIdMap.json");
+		Map<Integer, String> srclist = json.loadIntStringMap("Mindcrack.ItemIdMap.json");
 		System.out.print("Loading dst map...");
-		Map<Integer, String> dstlist = json.loadIdMap("Direwolf.ItemIdMap.json");
+		Map<Integer, String> dstlist = json.loadIntStringMap("Direwolf.ItemIdMap.json");
 		System.out.print("Building src->dst map...");
 		JsonObject itemmap = new JsonObject();
 		for (int i = 0; i < Short.MAX_VALUE; i++) {

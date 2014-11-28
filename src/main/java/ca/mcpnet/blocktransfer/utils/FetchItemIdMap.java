@@ -31,7 +31,7 @@ public class FetchItemIdMap {
 	public static void main(String[] args) throws TException, FileNotFoundException {
 		TTransport transport;
 		
-		transport = new TFramedTransport(new TSocket("direwolf.mcpnet.ca",9090));
+		transport = new TFramedTransport(new TSocket("localhost",9090));
 		transport.open();
 		TProtocol protocol = new TBinaryProtocol(transport);
 		BlockTransferService.Client client = new BlockTransferService.Client(protocol);

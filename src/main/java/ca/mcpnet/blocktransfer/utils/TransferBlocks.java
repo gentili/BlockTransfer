@@ -1,9 +1,5 @@
 package ca.mcpnet.blocktransfer.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,8 +27,11 @@ public class TransferBlocks {
 
 	public static void main(String[] args) throws TException, IOException {
 		String srcURL = "mindcrack.mcpnet.ca";
-		String dstURL = "direwolf.mcpnet.ca";
+		String dstURL = "localhost"; // "direwolf.mcpnet.ca";
+		BTiVector iloc = null;
+		BTPlayer player = null;
 		
+		/*
 		// Connect to src client
 		System.out.println("Src client connect...");
 		TFramedTransport src_transport = new TFramedTransport(new TSocket(srcURL,9090));
@@ -40,8 +39,6 @@ public class TransferBlocks {
 		BlockTransferService.Client src_client = new BlockTransferService.Client(new TBinaryProtocol(src_transport));
 		// Find source user
 		List<BTPlayer> src_plyrs = src_client.getPlayerList();
-		BTiVector iloc = null;
-		BTPlayer player = null;
 		for (Iterator<BTPlayer> itr = src_plyrs.iterator();itr.hasNext();) {
 			player = itr.next();
 			if (player.getName().contentEquals("globnobulous")) {
@@ -59,50 +56,32 @@ public class TransferBlocks {
 		iloc.z -= 4;
 		BTiVector isize = new BTiVector(8,8,8);
 		BTWorldFrame frame = src_client.getFrame(player.getWorldid(), iloc, isize);
+		
+		*/
+		System.out.println("Loading lists and frames and such...");
+		BTWorldFrame frame = binary.loadFrame("Mindcrack.frame.bin");
 
-		
 		// Load src block id map
-		Map<Integer, String> src_blkidmap = json.loadIdMap("Mindcrack.BlockIdMap.json"); 		
+		Map<Integer, String> src_blkidmap = json.loadIntStringMap("Mindcrack.BlockIdMap.json"); 		
 		// Load dst block id map
-		Map<String, Integer> dst_blknamemap = json.loadNameMap("Direwolf.BlockNameMap.json"); 
+		Map<String, Integer> dst_blknamemap = json.loadStringIntMap("Direwolf.BlockNameMap.json"); 
 		// Load block2block map
-		HashMap<String, String> blkmap = json.loadBlockMap("Mindcrack.Direwolf.BlockMap.json");
-		// Fetch the frame
-		// BTWorldFrame frame = binary.loadFrame("Mindcrack.frame.bin");
-		// remap src blocks to dst blocks
+		HashMap<String, String> blkmap = json.loadStringStringMap("Mindcrack.Direwolf.BlockMap.json");
 		
-		// Direct id to id map
-		HashMap<Integer,Integer> blkidmap = new HashMap<Integer, Integer>();
-		blkidmap.put(0, 0); // Add air block
-		// Source blocks
-		DataInputStream is = new DataInputStream(new ByteArrayInputStream(frame.getBlockdata()));
-		// Dst blocks
-		ByteArrayOutputStream ba = new ByteArrayOutputStream();
-		DataOutputStream os = new DataOutputStream(ba);
-			for (int x = 0;x < frame.size.x;x++)
-				for (int y = 0;y < frame.size.y;y++)
-					for (int z = 0;z < frame.size.z;z++) {
-						int src_blkid = is.readShort();
-						int metadata = is.readByte();
-						if (!blkidmap.containsKey(src_blkid)) {
-							String src_blkname = src_blkidmap.get(src_blkid);
-							if (src_blkname == null)
-								throw new RuntimeException("No src_id->src_name mapping for "+src_blkid+" -> ?");
-							String dst_blkname = blkmap.get(src_blkname);
-							if (dst_blkname == null)
-								throw new RuntimeException("No src_name->dst_name mapping for "+src_blkid+" -> "+src_blkname+" -> ?");
-							Integer dst_blkid = dst_blknamemap.get(dst_blkname);
-							if (dst_blkid == null)
-								throw new RuntimeException("No dst_name->dst_id mapping for "+src_blkid+" -> "+src_blkname+" -> "+dst_blkname+" -> ?");
-							blkidmap.put(src_blkid, dst_blkid);
-						}
-						Integer dst_blkid = blkidmap.get(src_blkid);
-						os.writeShort(dst_blkid);
-						os.writeByte(metadata);
-					}
-			os.close();
-		frame.setBlockdata(ba.toByteArray());
+		// Load src item id map
+		Map<Integer, String> src_itemidmap = json.loadIntStringMap("Mindcrack.ItemIdMap.json");
+		// Load dst item id map
+		Map<String, Integer> dst_itemnamemap = json.loadStringIntMap("Direwolf.ItemNameMap.json");
+		// Load block2block map
+		HashMap<String, String> itemmap = json.loadStringStringMap("Mindcrack.Direwolf.ItemMap.json");
+
+		System.out.println("Doing translations...");
+		// remap src blocks to dst blocks
+		Translate.blocks(src_blkidmap, dst_blknamemap, blkmap, frame);
+		// remap src tiles to dst tiles
+		Translate.tiles(src_itemidmap, dst_itemnamemap, itemmap, frame);
 		// Connect to dst client
+		
 		System.out.println("Dst client connect...");
 		TFramedTransport dst_transport = new TFramedTransport(new TSocket(dstURL,9090));
 		dst_transport.open();
@@ -113,7 +92,6 @@ public class TransferBlocks {
 		player = null;
 		for (Iterator<BTPlayer> itr = dst_plyrs.iterator();itr.hasNext();) {
 			player = itr.next();
-			System.out.println(player.getName());
 			if (player.getName().contentEquals("globnobulous")) {
 				iloc = new BTiVector((int)player.location.getX(),
 						(int)player.location.getY(),
@@ -127,9 +105,7 @@ public class TransferBlocks {
 		iloc.x -= 4;
 		iloc.y -= 4;
 		iloc.z -= 4;
-		for (Iterator<BTTileEntity> itr = frame.tilelist.iterator();itr.hasNext();) {
-			BTTileEntity tile = itr.next();
-		}
+		System.out.println("Depositing frame...");
 		dst_client.putFrame(player.getWorldid(), iloc, frame);
 	}
 	

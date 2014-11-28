@@ -60,36 +60,20 @@ public class BlockTransferMod
 	private Map<String, Integer> itemnamemap;
 	
 	public Map<Integer, String> getBlockIdMap() {
+		checkBlockMaps();
 		return blockidmap;
 	}
 	
 	public Map<String, Integer> getBlockNameMap() {
+		checkBlockMaps();
 		return blocknamemap;
+
 	}
 	
-	public Map<Integer, String> getItemIdMap() {
-		return itemidmap;
-	}
-    
-	public Map<String, Integer> getItemNameMap() {
-		return itemnamemap;
-	}
-
-	/*
-	 * The following are Forge and FML specific methods
-	 */
-	@NetworkCheckHandler
-	public static boolean networkCheckHandler(Map<String, String> map, Side side) {
-		return true;
-	}
-
-	@EventHandler
-	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
-		log = e.getModLog();
-	}
-	
-	@EventHandler
-	public void onFMLPostInitializationEvent(FMLPostInitializationEvent e) {
+	private void checkBlockMaps() {
+		if (blockidmap != null && blocknamemap != null)
+			return;
+		log.info("Initializing block maps");
 		// Build the block mapping list
 		blockidmap = new HashMap<Integer, String>();
 		blocknamemap = new HashMap<String, Integer>();
@@ -97,11 +81,26 @@ public class BlockTransferMod
 			Block block = (Block) bitr.next();
 			String blockname = Block.blockRegistry.getNameForObject(block);
 			int blockid = Block.blockRegistry.getIDForObject(block);
-			log.info("Adding map " + blockid + "->" + blockname);
+			log.info("Adding block " + blockid + "->" + blockname);
 			blockidmap.put(blockid, blockname);
 			blocknamemap.put(blockname, blockid);
 		}
-		
+	}
+	
+	public Map<Integer, String> getItemIdMap() {
+		checkItemMaps();
+		return itemidmap;
+	}
+    
+	public Map<String, Integer> getItemNameMap() {
+		checkItemMaps();
+		return itemnamemap;
+	}
+
+	private void checkItemMaps() {
+		if (itemidmap != null && itemnamemap != null)
+			return;
+		log.info("Initializing item maps");
 		// Build the item mapping list
 		itemidmap = new HashMap<Integer, String>();
 		itemnamemap = new HashMap<String, Integer>();
@@ -113,6 +112,24 @@ public class BlockTransferMod
 			itemidmap.put(itemid, itemname);
 			itemnamemap.put(itemname, itemid);
 		}
+	}
+	/*
+	 * The following are Forge and FML specific methods
+	 */
+	@NetworkCheckHandler
+	public static boolean networkCheckHandler(Map<String, String> map, Side side) {
+		return true;
+	}
+
+	@EventHandler
+	public void onFMLPreInitializationEvent(FMLPreInitializationEvent e) {
+		log = e.getModLog();
+		log.info("Initialization deferred to Server Start and first requests");
+	}
+	
+	@EventHandler
+	public void onFMLPostInitializationEvent(FMLPostInitializationEvent e) {
+		
 	}
         
     @EventHandler

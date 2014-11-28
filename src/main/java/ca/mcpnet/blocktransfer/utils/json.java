@@ -40,7 +40,7 @@ public final class json {
 	 * @throws TTransportException
 	 * @throws TException
 	 */
-	public static Map<Integer, String> loadIdMap(String filename)
+	public static Map<Integer, String> loadIntStringMap(String filename)
 			throws FileNotFoundException, TTransportException, TException {
 		TIOStreamTransport JSONtransport = new TIOStreamTransport(
 				new FileInputStream(filename));
@@ -79,7 +79,7 @@ public final class json {
 	 * @throws TException
 	 * @throws FileNotFoundException
 	 */
-	public static Map<String, Integer> loadNameMap(String filename) throws TException, FileNotFoundException {
+	public static Map<String, Integer> loadStringIntMap(String filename) throws TException, FileNotFoundException {
 		TIOStreamTransport JSONtransport = new TIOStreamTransport(
 				new FileInputStream(filename));
 		JSONtransport.open();
@@ -118,7 +118,7 @@ public final class json {
 	 * @throws FileNotFoundException
 	 */
 
-	public static HashMap<String, String> loadBlockMap(String filename) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+	public static HashMap<String, String> loadStringStringMap(String filename) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
 		JsonParser json = new JsonParser();
 		JsonElement root = json.parse(new FileReader(filename));
 		

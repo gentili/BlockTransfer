@@ -54,7 +54,7 @@ public class PrintFrame {
 					.read(new DataInputStream(new ByteArrayInputStream(bttile
 							.getNbt())));
 			String id = nbt.getString("id");
-			if (id.contentEquals("Chest")) {
+			if (id.contains("Chest")) {
 				System.out.println(nbt);
 				NBTTagList items = (NBTTagList) nbt.getTag("Items");
 				for (int i = 0; i < items.tagCount(); i++) {
@@ -62,11 +62,8 @@ public class PrintFrame {
 					int src_itemid = itemstack.getShort("id");
 					System.out.println("  "+itemidmap.get(src_itemid)+" "+itemstack);
 				}
-			} else if (id.contains("Pipe")){
-				System.out.println("PIPE");
-				Set keys = nbt.func_150296_c();
-				for (Iterator itr = keys.iterator();itr.hasNext();)
-					System.out.println(itr.next());
+			} else {
+					System.out.println(nbt);
 			}
 		}
 	}

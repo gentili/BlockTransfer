@@ -62,4 +62,6 @@ service BlockTransferService
     ItemIdMap getItemIdMap()
 
     ItemNameMap getItemNameMap()
+
+    bool useItem(1:i32 worldid, 2:BTiVector location, 3:string playername 4:byte side 5:i32 itemid)
 }

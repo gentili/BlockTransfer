@@ -26,12 +26,13 @@ public class TestClient {
 		TTransport transport;
 		
 		try {
-			transport = new TFramedTransport(new TSocket("localhost",9090));
+			transport = new TFramedTransport(new TSocket("10.10.10.5",9090));
 			transport.open();
 			TProtocol protocol = new TBinaryProtocol(transport);
 			BlockTransferService.Client client = new BlockTransferService.Client(protocol);
 			
 			System.out.println("Initial connect...");
+			/*
 			String ver = client.getVersion();
 			System.out.println("ModVer: "+ ver);
 			// Find the id for the diamond block
@@ -48,7 +49,7 @@ public class TestClient {
 				throw new RuntimeException("Could not find diamond block");
 			}
 			System.out.println("Diamond block id: "+blockid);
-			
+			*/
 			// Just pick the last player
 			List<BTPlayer> playerlist = client.getPlayerList();
 			BTPlayer player = null;
@@ -64,14 +65,21 @@ public class TestClient {
 			BTiVector iloc = new BTiVector((int)player.location.getX(),
 					(int)player.location.getY(),
 					(int)player.location.getZ());
+			/*
 			client.setBlock(player.getWorldid(), 
 					iloc.setY(iloc.getY()+2), 
 					new BTBlock(blockid, 0));
-			
+			*/
 			// Load a far off block
 			// BTBlock block = client.getBlock(player.getWorldid(), new BTiVector(10000,0,0));
 			// System.out.println(block);
-			
+
+			iloc.z++;
+			iloc.y++;
+			client.useItem(player.worldid,iloc,player.name, (byte) 5, 1316);
+			client.useItem(player.worldid,iloc,player.name, (byte) 4, 145);
+
+			/*
 			// Grab a frame around the player
 			iloc.x -= 4;
 			iloc.y -= 4;
@@ -83,6 +91,7 @@ public class TestClient {
 			
 			iloc.z += 8;
 			client.putFrame(player.getWorldid(), iloc, frame);
+			*/
 			
 		} catch (TTransportException e) {
 			// TODO Auto-generated catch block

@@ -178,7 +178,9 @@ public class BlockTransferMod
     	// Need to handle requests in -the context of the main
     	// server thread as they may request info from the world
     	// or modify the world
-		BTserver.serviceRequestQueue();
+    	if (e.type == TickEvent.Type.SERVER)
+    		if (e.phase == TickEvent.Phase.START)
+    			BTserver.serviceRequestQueue();
     }
 
     /*

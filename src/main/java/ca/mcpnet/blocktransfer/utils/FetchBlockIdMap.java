@@ -31,7 +31,7 @@ public class FetchBlockIdMap {
 	public static void main(String[] args) throws FileNotFoundException, TTransportException, TException {
 		TTransport transport;
 		
-		transport = new TFramedTransport(new TSocket("localhost",9090));
+		transport = new TFramedTransport(new TSocket("10.10.10.5",9090));
 		System.out.print("Connect...");
 		transport.open();
 		TProtocol protocol = new TBinaryProtocol(transport);

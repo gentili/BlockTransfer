@@ -84,7 +84,8 @@ public final class Translate {
 					.read(new DataInputStream(new ByteArrayInputStream(bttile
 							.getNbt())));
 			String id = nbt.getString("id");
-			if (id.contentEquals("Chest")) {
+			// System.out.println("")
+			if (id.contains("Chest")) {
 				// System.out.println(nbt);
 				NBTTagList items = (NBTTagList) nbt.getTag("Items");
 				for (int i = 0; i < items.tagCount(); i++) {
@@ -97,7 +98,7 @@ public final class Translate {
 						String dst_itemname = itemmap.get(src_itemname);
 						if (dst_itemname == null) {
 							missingMappings.add(src_itemname);
-							// System.out.println("No src_name->dst_name mapping for "+src_blkid+" -> "+src_blkname+" -> ?");
+							System.out.println("No src_name->dst_name mapping for "+src_itemid+" -> "+src_itemname+" -> ?");
 							continue;
 						}
 						Integer dst_itemid = dst_itemnamemap.get(dst_itemname);

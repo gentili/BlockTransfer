@@ -54,6 +54,8 @@ public class BlockTransferService {
 
     public Map<String,Integer> getItemNameMap() throws org.apache.thrift.TException;
 
+    public boolean useItem(int worldid, BTiVector location, String playername, byte side, int itemid) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -77,6 +79,8 @@ public class BlockTransferService {
     public void getItemIdMap(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getItemIdMap_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getItemNameMap(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getItemNameMap_call> resultHandler) throws org.apache.thrift.TException;
+
+    public void useItem(int worldid, BTiVector location, String playername, byte side, int itemid, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.useItem_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -323,6 +327,33 @@ public class BlockTransferService {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getItemNameMap failed: unknown result");
+    }
+
+    public boolean useItem(int worldid, BTiVector location, String playername, byte side, int itemid) throws org.apache.thrift.TException
+    {
+      send_useItem(worldid, location, playername, side, itemid);
+      return recv_useItem();
+    }
+
+    public void send_useItem(int worldid, BTiVector location, String playername, byte side, int itemid) throws org.apache.thrift.TException
+    {
+      useItem_args args = new useItem_args();
+      args.setWorldid(worldid);
+      args.setLocation(location);
+      args.setPlayername(playername);
+      args.setSide(side);
+      args.setItemid(itemid);
+      sendBase("useItem", args);
+    }
+
+    public boolean recv_useItem() throws org.apache.thrift.TException
+    {
+      useItem_result result = new useItem_result();
+      receiveBase(result, "useItem");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "useItem failed: unknown result");
     }
 
   }
@@ -666,6 +697,50 @@ public class BlockTransferService {
       }
     }
 
+    public void useItem(int worldid, BTiVector location, String playername, byte side, int itemid, org.apache.thrift.async.AsyncMethodCallback<useItem_call> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      useItem_call method_call = new useItem_call(worldid, location, playername, side, itemid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class useItem_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private int worldid;
+      private BTiVector location;
+      private String playername;
+      private byte side;
+      private int itemid;
+      public useItem_call(int worldid, BTiVector location, String playername, byte side, int itemid, org.apache.thrift.async.AsyncMethodCallback<useItem_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.worldid = worldid;
+        this.location = location;
+        this.playername = playername;
+        this.side = side;
+        this.itemid = itemid;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("useItem", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        useItem_args args = new useItem_args();
+        args.setWorldid(worldid);
+        args.setLocation(location);
+        args.setPlayername(playername);
+        args.setSide(side);
+        args.setItemid(itemid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_useItem();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -689,6 +764,7 @@ public class BlockTransferService {
       processMap.put("putFrame", new putFrame());
       processMap.put("getItemIdMap", new getItemIdMap());
       processMap.put("getItemNameMap", new getItemNameMap());
+      processMap.put("useItem", new useItem());
       return processMap;
     }
 
@@ -888,6 +964,27 @@ public class BlockTransferService {
       public getItemNameMap_result getResult(I iface, getItemNameMap_args args) throws org.apache.thrift.TException {
         getItemNameMap_result result = new getItemNameMap_result();
         result.success = iface.getItemNameMap();
+        return result;
+      }
+    }
+
+    public static class useItem<I extends Iface> extends org.apache.thrift.ProcessFunction<I, useItem_args> {
+      public useItem() {
+        super("useItem");
+      }
+
+      public useItem_args getEmptyArgsInstance() {
+        return new useItem_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public useItem_result getResult(I iface, useItem_args args) throws org.apache.thrift.TException {
+        useItem_result result = new useItem_result();
+        result.success = iface.useItem(args.worldid, args.location, args.playername, args.side, args.itemid);
+        result.setSuccessIsSet(true);
         return result;
       }
     }
@@ -8085,6 +8182,1105 @@ public class BlockTransferService {
               struct.success.put(_key54, _val55);
             }
           }
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class useItem_args implements org.apache.thrift.TBase<useItem_args, useItem_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("useItem_args");
+
+    private static final org.apache.thrift.protocol.TField WORLDID_FIELD_DESC = new org.apache.thrift.protocol.TField("worldid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField LOCATION_FIELD_DESC = new org.apache.thrift.protocol.TField("location", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField PLAYERNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("playername", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField SIDE_FIELD_DESC = new org.apache.thrift.protocol.TField("side", org.apache.thrift.protocol.TType.BYTE, (short)4);
+    private static final org.apache.thrift.protocol.TField ITEMID_FIELD_DESC = new org.apache.thrift.protocol.TField("itemid", org.apache.thrift.protocol.TType.I32, (short)5);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new useItem_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new useItem_argsTupleSchemeFactory());
+    }
+
+    public int worldid; // required
+    public BTiVector location; // required
+    public String playername; // required
+    public byte side; // required
+    public int itemid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      WORLDID((short)1, "worldid"),
+      LOCATION((short)2, "location"),
+      PLAYERNAME((short)3, "playername"),
+      SIDE((short)4, "side"),
+      ITEMID((short)5, "itemid");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // WORLDID
+            return WORLDID;
+          case 2: // LOCATION
+            return LOCATION;
+          case 3: // PLAYERNAME
+            return PLAYERNAME;
+          case 4: // SIDE
+            return SIDE;
+          case 5: // ITEMID
+            return ITEMID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __WORLDID_ISSET_ID = 0;
+    private static final int __SIDE_ISSET_ID = 1;
+    private static final int __ITEMID_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.WORLDID, new org.apache.thrift.meta_data.FieldMetaData("worldid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.LOCATION, new org.apache.thrift.meta_data.FieldMetaData("location", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BTiVector.class)));
+      tmpMap.put(_Fields.PLAYERNAME, new org.apache.thrift.meta_data.FieldMetaData("playername", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.SIDE, new org.apache.thrift.meta_data.FieldMetaData("side", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BYTE)));
+      tmpMap.put(_Fields.ITEMID, new org.apache.thrift.meta_data.FieldMetaData("itemid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(useItem_args.class, metaDataMap);
+    }
+
+    public useItem_args() {
+    }
+
+    public useItem_args(
+      int worldid,
+      BTiVector location,
+      String playername,
+      byte side,
+      int itemid)
+    {
+      this();
+      this.worldid = worldid;
+      setWorldidIsSet(true);
+      this.location = location;
+      this.playername = playername;
+      this.side = side;
+      setSideIsSet(true);
+      this.itemid = itemid;
+      setItemidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public useItem_args(useItem_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.worldid = other.worldid;
+      if (other.isSetLocation()) {
+        this.location = new BTiVector(other.location);
+      }
+      if (other.isSetPlayername()) {
+        this.playername = other.playername;
+      }
+      this.side = other.side;
+      this.itemid = other.itemid;
+    }
+
+    public useItem_args deepCopy() {
+      return new useItem_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setWorldidIsSet(false);
+      this.worldid = 0;
+      this.location = null;
+      this.playername = null;
+      setSideIsSet(false);
+      this.side = 0;
+      setItemidIsSet(false);
+      this.itemid = 0;
+    }
+
+    public int getWorldid() {
+      return this.worldid;
+    }
+
+    public useItem_args setWorldid(int worldid) {
+      this.worldid = worldid;
+      setWorldidIsSet(true);
+      return this;
+    }
+
+    public void unsetWorldid() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __WORLDID_ISSET_ID);
+    }
+
+    /** Returns true if field worldid is set (has been assigned a value) and false otherwise */
+    public boolean isSetWorldid() {
+      return EncodingUtils.testBit(__isset_bitfield, __WORLDID_ISSET_ID);
+    }
+
+    public void setWorldidIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __WORLDID_ISSET_ID, value);
+    }
+
+    public BTiVector getLocation() {
+      return this.location;
+    }
+
+    public useItem_args setLocation(BTiVector location) {
+      this.location = location;
+      return this;
+    }
+
+    public void unsetLocation() {
+      this.location = null;
+    }
+
+    /** Returns true if field location is set (has been assigned a value) and false otherwise */
+    public boolean isSetLocation() {
+      return this.location != null;
+    }
+
+    public void setLocationIsSet(boolean value) {
+      if (!value) {
+        this.location = null;
+      }
+    }
+
+    public String getPlayername() {
+      return this.playername;
+    }
+
+    public useItem_args setPlayername(String playername) {
+      this.playername = playername;
+      return this;
+    }
+
+    public void unsetPlayername() {
+      this.playername = null;
+    }
+
+    /** Returns true if field playername is set (has been assigned a value) and false otherwise */
+    public boolean isSetPlayername() {
+      return this.playername != null;
+    }
+
+    public void setPlayernameIsSet(boolean value) {
+      if (!value) {
+        this.playername = null;
+      }
+    }
+
+    public byte getSide() {
+      return this.side;
+    }
+
+    public useItem_args setSide(byte side) {
+      this.side = side;
+      setSideIsSet(true);
+      return this;
+    }
+
+    public void unsetSide() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SIDE_ISSET_ID);
+    }
+
+    /** Returns true if field side is set (has been assigned a value) and false otherwise */
+    public boolean isSetSide() {
+      return EncodingUtils.testBit(__isset_bitfield, __SIDE_ISSET_ID);
+    }
+
+    public void setSideIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SIDE_ISSET_ID, value);
+    }
+
+    public int getItemid() {
+      return this.itemid;
+    }
+
+    public useItem_args setItemid(int itemid) {
+      this.itemid = itemid;
+      setItemidIsSet(true);
+      return this;
+    }
+
+    public void unsetItemid() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ITEMID_ISSET_ID);
+    }
+
+    /** Returns true if field itemid is set (has been assigned a value) and false otherwise */
+    public boolean isSetItemid() {
+      return EncodingUtils.testBit(__isset_bitfield, __ITEMID_ISSET_ID);
+    }
+
+    public void setItemidIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ITEMID_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case WORLDID:
+        if (value == null) {
+          unsetWorldid();
+        } else {
+          setWorldid((Integer)value);
+        }
+        break;
+
+      case LOCATION:
+        if (value == null) {
+          unsetLocation();
+        } else {
+          setLocation((BTiVector)value);
+        }
+        break;
+
+      case PLAYERNAME:
+        if (value == null) {
+          unsetPlayername();
+        } else {
+          setPlayername((String)value);
+        }
+        break;
+
+      case SIDE:
+        if (value == null) {
+          unsetSide();
+        } else {
+          setSide((Byte)value);
+        }
+        break;
+
+      case ITEMID:
+        if (value == null) {
+          unsetItemid();
+        } else {
+          setItemid((Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case WORLDID:
+        return Integer.valueOf(getWorldid());
+
+      case LOCATION:
+        return getLocation();
+
+      case PLAYERNAME:
+        return getPlayername();
+
+      case SIDE:
+        return Byte.valueOf(getSide());
+
+      case ITEMID:
+        return Integer.valueOf(getItemid());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case WORLDID:
+        return isSetWorldid();
+      case LOCATION:
+        return isSetLocation();
+      case PLAYERNAME:
+        return isSetPlayername();
+      case SIDE:
+        return isSetSide();
+      case ITEMID:
+        return isSetItemid();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof useItem_args)
+        return this.equals((useItem_args)that);
+      return false;
+    }
+
+    public boolean equals(useItem_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_worldid = true;
+      boolean that_present_worldid = true;
+      if (this_present_worldid || that_present_worldid) {
+        if (!(this_present_worldid && that_present_worldid))
+          return false;
+        if (this.worldid != that.worldid)
+          return false;
+      }
+
+      boolean this_present_location = true && this.isSetLocation();
+      boolean that_present_location = true && that.isSetLocation();
+      if (this_present_location || that_present_location) {
+        if (!(this_present_location && that_present_location))
+          return false;
+        if (!this.location.equals(that.location))
+          return false;
+      }
+
+      boolean this_present_playername = true && this.isSetPlayername();
+      boolean that_present_playername = true && that.isSetPlayername();
+      if (this_present_playername || that_present_playername) {
+        if (!(this_present_playername && that_present_playername))
+          return false;
+        if (!this.playername.equals(that.playername))
+          return false;
+      }
+
+      boolean this_present_side = true;
+      boolean that_present_side = true;
+      if (this_present_side || that_present_side) {
+        if (!(this_present_side && that_present_side))
+          return false;
+        if (this.side != that.side)
+          return false;
+      }
+
+      boolean this_present_itemid = true;
+      boolean that_present_itemid = true;
+      if (this_present_itemid || that_present_itemid) {
+        if (!(this_present_itemid && that_present_itemid))
+          return false;
+        if (this.itemid != that.itemid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(useItem_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      useItem_args typedOther = (useItem_args)other;
+
+      lastComparison = Boolean.valueOf(isSetWorldid()).compareTo(typedOther.isSetWorldid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetWorldid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.worldid, typedOther.worldid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetLocation()).compareTo(typedOther.isSetLocation());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetLocation()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.location, typedOther.location);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetPlayername()).compareTo(typedOther.isSetPlayername());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPlayername()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.playername, typedOther.playername);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetSide()).compareTo(typedOther.isSetSide());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSide()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.side, typedOther.side);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetItemid()).compareTo(typedOther.isSetItemid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetItemid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.itemid, typedOther.itemid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("useItem_args(");
+      boolean first = true;
+
+      sb.append("worldid:");
+      sb.append(this.worldid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("location:");
+      if (this.location == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.location);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("playername:");
+      if (this.playername == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.playername);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("side:");
+      sb.append(this.side);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("itemid:");
+      sb.append(this.itemid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (location != null) {
+        location.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class useItem_argsStandardSchemeFactory implements SchemeFactory {
+      public useItem_argsStandardScheme getScheme() {
+        return new useItem_argsStandardScheme();
+      }
+    }
+
+    private static class useItem_argsStandardScheme extends StandardScheme<useItem_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, useItem_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // WORLDID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.worldid = iprot.readI32();
+                struct.setWorldidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // LOCATION
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.location = new BTiVector();
+                struct.location.read(iprot);
+                struct.setLocationIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PLAYERNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.playername = iprot.readString();
+                struct.setPlayernameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // SIDE
+              if (schemeField.type == org.apache.thrift.protocol.TType.BYTE) {
+                struct.side = iprot.readByte();
+                struct.setSideIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // ITEMID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.itemid = iprot.readI32();
+                struct.setItemidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, useItem_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(WORLDID_FIELD_DESC);
+        oprot.writeI32(struct.worldid);
+        oprot.writeFieldEnd();
+        if (struct.location != null) {
+          oprot.writeFieldBegin(LOCATION_FIELD_DESC);
+          struct.location.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.playername != null) {
+          oprot.writeFieldBegin(PLAYERNAME_FIELD_DESC);
+          oprot.writeString(struct.playername);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(SIDE_FIELD_DESC);
+        oprot.writeByte(struct.side);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(ITEMID_FIELD_DESC);
+        oprot.writeI32(struct.itemid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class useItem_argsTupleSchemeFactory implements SchemeFactory {
+      public useItem_argsTupleScheme getScheme() {
+        return new useItem_argsTupleScheme();
+      }
+    }
+
+    private static class useItem_argsTupleScheme extends TupleScheme<useItem_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, useItem_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetWorldid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetLocation()) {
+          optionals.set(1);
+        }
+        if (struct.isSetPlayername()) {
+          optionals.set(2);
+        }
+        if (struct.isSetSide()) {
+          optionals.set(3);
+        }
+        if (struct.isSetItemid()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetWorldid()) {
+          oprot.writeI32(struct.worldid);
+        }
+        if (struct.isSetLocation()) {
+          struct.location.write(oprot);
+        }
+        if (struct.isSetPlayername()) {
+          oprot.writeString(struct.playername);
+        }
+        if (struct.isSetSide()) {
+          oprot.writeByte(struct.side);
+        }
+        if (struct.isSetItemid()) {
+          oprot.writeI32(struct.itemid);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, useItem_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.worldid = iprot.readI32();
+          struct.setWorldidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.location = new BTiVector();
+          struct.location.read(iprot);
+          struct.setLocationIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.playername = iprot.readString();
+          struct.setPlayernameIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.side = iprot.readByte();
+          struct.setSideIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.itemid = iprot.readI32();
+          struct.setItemidIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class useItem_result implements org.apache.thrift.TBase<useItem_result, useItem_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("useItem_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new useItem_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new useItem_resultTupleSchemeFactory());
+    }
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(useItem_result.class, metaDataMap);
+    }
+
+    public useItem_result() {
+    }
+
+    public useItem_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public useItem_result(useItem_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    public useItem_result deepCopy() {
+      return new useItem_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public useItem_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return Boolean.valueOf(isSuccess());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof useItem_result)
+        return this.equals((useItem_result)that);
+      return false;
+    }
+
+    public boolean equals(useItem_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(useItem_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      useItem_result typedOther = (useItem_result)other;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("useItem_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class useItem_resultStandardSchemeFactory implements SchemeFactory {
+      public useItem_resultStandardScheme getScheme() {
+        return new useItem_resultStandardScheme();
+      }
+    }
+
+    private static class useItem_resultStandardScheme extends StandardScheme<useItem_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, useItem_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, useItem_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class useItem_resultTupleSchemeFactory implements SchemeFactory {
+      public useItem_resultTupleScheme getScheme() {
+        return new useItem_resultTupleScheme();
+      }
+    }
+
+    private static class useItem_resultTupleScheme extends TupleScheme<useItem_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, useItem_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, useItem_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
           struct.setSuccessIsSet(true);
         }
       }

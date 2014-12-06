@@ -13,6 +13,8 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -196,6 +198,17 @@ public class BlockTransferServiceHandler implements BlockTransferService.Iface {
 	@Override
 	public Map<String, Integer> getItemNameMap() throws TException {
 		return BlockTransferMod.instance.getItemNameMap();
+	}
+
+	@Override
+	public boolean useItem(int worldid, BTiVector location, String playername,
+			byte side, int itemid) throws TException {
+		WorldServer world = getWorld(worldid);
+		EntityPlayer player = world.getPlayerEntityByName(playername);
+		Item item = (Item) Item.itemRegistry.getObjectById(itemid);
+		ItemStack stack = new ItemStack(item);
+		item.onItemUse(stack, player, world, location.getX(), location.getY(), location.getZ(), side, 0, 0, 0);
+		return false;
 	}
 	
 }

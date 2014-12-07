@@ -1,9 +1,12 @@
 package ca.mcpnet.blocktransfer.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,20 +47,10 @@ public class TransferBlocks {
 		src_transport.open();
 		BlockTransferService.Client src_client = new BlockTransferService.Client(new TBinaryProtocol(src_transport));
 		// Find source user
-		List<BTPlayer> src_plyrs = src_client.getPlayerList();
-		for (Iterator<BTPlayer> itr = src_plyrs.iterator();itr.hasNext();) {
-			player = itr.next();
-			if (player.getName().contentEquals("globnobulous")) {
-				iloc = new BTiVector((int)player.location.getX(),
-						(int)player.location.getY(),
-						(int)player.location.getZ());
-				break;
-			}
-		}
-		if (iloc == null)
-			throw new RuntimeException("Could not find player!");
+		player = Translate.getPlayer(src_client.getPlayerList(),"globnobulous");
+		iloc = Translate.dloc2iloc(player.location);
 		// fetch frame around source user
-		int radius = 2;
+		int radius = 10;
 		int height = 2;
 		iloc.x -= radius;
 		iloc.y -= height;
@@ -82,7 +75,7 @@ public class TransferBlocks {
 		// Load block2block map
 		HashMap<String, String> itemmap = json.loadStringStringMap("Mindcrack.Direwolf.ItemMap.json");
 
-		System.out.println("Removing dead entities...");
+		System.out.println("Processing special tiles...");
 		List<BTTileEntity> tiles = frame.getTilelist();
 		List<BTTileEntity> tilelist = new ArrayList<BTTileEntity>();
 		for (Iterator<BTTileEntity> itr = tiles.iterator(); itr.hasNext();) {
@@ -91,7 +84,48 @@ public class TransferBlocks {
 					.read(new DataInputStream(new ByteArrayInputStream(bttile
 							.getNbt())));
 			String id = nbt.getString("id");
-			if (id.contains("GenericPipe") || id.contains("factory_barrel")) {
+			if (id.contentEquals("factory_barrel")) {
+				NBTTagCompound slab = new NBTTagCompound();
+				slab.setShort("id", (short) 574);
+				slab.setShort("Damage", (short) 7);
+				slab.setByte("Count", (byte) 6);
+				
+				NBTTagCompound log = new NBTTagCompound();
+				log.setShort("id", (short) 553);
+				log.setShort("Damage", (short) 3);
+				log.setByte("Count", (byte) 1);
+
+				int dstid = mapitemid(nbt.getCompoundTag("item_type").getShort("id"), src_itemidmap,	itemmap, dst_itemnamemap);
+
+				NBTTagCompound item = new NBTTagCompound();
+				item.setShort("id", (short) dstid);
+				item.setShort("Damage", (short) 0);
+				item.setByte("Count",(byte) 0);
+				
+				// Create new nbt
+				NBTTagCompound newnbt = new NBTTagCompound();
+				newnbt.setString("id", "factory_barrel2");
+				newnbt.setInteger("count", nbt.getInteger("item_count"));
+				newnbt.setInteger("dir", nbt.getByte("facing")*4);
+				newnbt.setByte("draw_active_byte", nbt.getByte("draw_active_byte"));
+				newnbt.setInteger("x",nbt.getInteger("x"));
+				newnbt.setInteger("y",nbt.getInteger("y"));
+				newnbt.setInteger("z",nbt.getInteger("z"));
+				newnbt.setTag("item", item);
+				
+				newnbt.setString("ver", "1.7.10-0.8.88.1");
+				newnbt.setInteger("type", 0);
+				newnbt.setTag("slab", slab);
+				newnbt.setTag("log", log);
+				newnbt.setByte("facing", (byte) 3);
+				
+				ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+					CompressedStreamTools.write(newnbt, new DataOutputStream(bytearrayoutputstream));
+				ByteBuffer bytearray = ByteBuffer.wrap(bytearrayoutputstream.toByteArray());
+				
+				bttile.setNbt(bytearray);
+
+			} else if (id.contains("GenericPipe")) {
 				tilelist.add(bttile);
 				itr.remove();
 			}
@@ -120,26 +154,14 @@ public class TransferBlocks {
 		dst_transport.open();
 		BlockTransferService.Client dst_client = new BlockTransferService.Client(new TBinaryProtocol(dst_transport));
 		// Find dst user
-		List<BTPlayer> dst_plyrs = dst_client.getPlayerList();
-		iloc = null;
-		player = null;
-		for (Iterator<BTPlayer> itr = dst_plyrs.iterator();itr.hasNext();) {
-			player = itr.next();
-			if (player.getName().contentEquals("globnobulous")) {
-				iloc = new BTiVector((int)player.location.getX(),
-						(int)player.location.getY(),
-						(int)player.location.getZ());
-				break;
-			}
-		}
-		if (iloc == null)
-			throw new RuntimeException("Could not find player!");
+		player = Translate.getPlayer(dst_client.getPlayerList(),"globnobulous");
+		iloc = Translate.dloc2iloc(player.location);
 		// fetch frame around source user
 		iloc.x -= radius;
 		iloc.y -= height;
 		iloc.z -= radius;
 		System.out.println("Depositing frame...");
-		// dst_client.putFrame(player.getWorldid(), iloc, frame);
+		dst_client.putFrame(player.getWorldid(), iloc, frame);
 		System.out.println("Filling in specials...");
 		for (Iterator<BTTileEntity> itr = tilelist.iterator(); itr.hasNext(); ) {
 			BTTileEntity bttile = itr.next();
@@ -148,44 +170,7 @@ public class TransferBlocks {
 							.getNbt())));
 
 			String id = nbt.getString("id");
-			if (id.contentEquals("factory_barrel")) {
-				/*				
-				id:"factory_barrel2",
-				count:193,
-				dir:8,
-				item:{id:4s,Damage:0s,Count:0b,},
-				slab:{id:574s,Damage:7s,Count:6b,},
-				facing:3b,
-				draw_active_byte:0b,
-				ver:"1.7.10-0.8.88.1",
-				type:0,
-				x:-116
-				y:81
-				z:240
-				log:{id:553s,Damage:3s,Count:1b,}
-				
-				id:"factory_barrel",
-				item_count:1570,
-				item_type:{id:1315s,Damage:0s,Count:64b,}
-
-				upgrade:0,
-				facing:5b,
-				draw_active_byte:0b,
-				ver:"0.7.21",
-				x:-351,
-				y:113,
-				z:163,
-				
-				*/
-				
-				//dst_client.setBlock(player.worldid, add(bttile.location,iloc), new BTBlock(barrelid,0));
-				//dst_client.useItem(player.worldid,add(bttile.location,iloc),player.name, (byte) 3, barrelid);
-				int src_itemid = nbt.getCompoundTag("item_type").getShort("id");
-				//Integer dst_itemid = mapitemid(src_itemid, src_itemidmap,
-					//	itemmap, dst_itemnamemap);
-				//  dst_client.useItem(player.worldid,add(bttile.location,iloc),player.name, (byte) 3, dst_itemid);
-				
-			} else if (id.contentEquals("net.minecraft.src.buildcraft.transport.GenericPipe")) {
+			if (id.contentEquals("net.minecraft.src.buildcraft.transport.GenericPipe")) {
 				int src_itemid = nbt.getInteger("pipeId");
 				int dst_itemid = mapitemid(src_itemid, src_itemidmap,
 						itemmap, dst_itemnamemap);
@@ -201,6 +186,8 @@ public class TransferBlocks {
 			Map<Integer, String> src_itemidmap,
 			HashMap<String, String> srcdst_itemmap,
 			Map<String, Integer> dst_itemnamemap) {
+		if (src_itemid == 0)
+			return 0;
 		String src_itemname = src_itemidmap.get(src_itemid);
 		if (src_itemname == null)
 			throw new RuntimeException("No src_id->src_name mapping for "+src_itemid+" -> ?");

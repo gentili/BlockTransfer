@@ -9,14 +9,18 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import ca.mcpnet.blocktransfer.BTPlayer;
 import ca.mcpnet.blocktransfer.BTTileEntity;
 import ca.mcpnet.blocktransfer.BTWorldFrame;
+import ca.mcpnet.blocktransfer.BTdVector;
+import ca.mcpnet.blocktransfer.BTiVector;
 
 public final class Translate {
 	
@@ -120,5 +124,28 @@ public final class Translate {
 			}
 		}
 		return missingMappings;
+	}
+
+	public static BTiVector dloc2iloc(BTdVector dloc) {
+		BTiVector iloc;
+		iloc = new BTiVector((int)dloc.getX(),
+				(int)dloc.getY(),
+				(int)dloc.getZ());
+		if (dloc.getX() < 0)
+			iloc.x--;
+		if (dloc.getZ() < 0)
+			iloc.y--;
+		return iloc;
+	}
+
+	public static BTPlayer getPlayer(List<BTPlayer> src_plyrs, String name) {
+		BTPlayer player = null;
+		for (Iterator<BTPlayer> itr = src_plyrs.iterator();itr.hasNext();) {
+			player = itr.next();
+			if (player.getName().contentEquals(name)) {
+				return player;
+			}
+		}
+		throw new RuntimeException("Player not found!");
 	}
 }

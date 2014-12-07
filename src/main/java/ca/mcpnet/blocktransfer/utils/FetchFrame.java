@@ -36,7 +36,7 @@ public final class FetchFrame {
 			throw new RuntimeException("Could not find player!");
 		// fetch frame around source user
 		int radius = 2;
-		int height = 2;
+		int height = 1;
 		iloc.x -= radius;
 		iloc.y -= height;
 		iloc.z -= radius;

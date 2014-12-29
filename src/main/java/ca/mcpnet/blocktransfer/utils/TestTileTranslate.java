@@ -42,7 +42,7 @@ public class TestTileTranslate {
 		// Fetch the frame
 		BTWorldFrame frame = binary.loadFrame("Mindcrack.frame.bin");
 
-		Set<String> missing = Translate.tiles(src_itemidmap, dst_itemnamemap, itemmap, frame);
+		Set<String> missing = Translate.itemsInTiles(src_itemidmap, dst_itemnamemap, itemmap, frame);
 		for (Iterator<String> itr = missing.iterator(); itr.hasNext(); ) 
 			System.out.println('"'+itr.next()+"\": \"\",");
 

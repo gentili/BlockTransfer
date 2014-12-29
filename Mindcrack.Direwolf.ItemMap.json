@@ -392,6 +392,8 @@
   "forestry.core.items.ItemForestry:item.apatite": "Forestry:apatite",
   "forestry.core.items.ItemWrench:item.wrench": "Forestry:wrench",
 
+  "vq:tile.MFFSMonazitOre": "minecraft:red_flower",
+  "soaryn.xycraft.world.block.ItemCrystal:tile.world.blocks.worldGen.quartzCrystal": "minecraft:red_flower",
   "ic2.core.item.block.ItemRubLeaves:tile.leaves": "minecraft:red_flower",
   "factorization.common.ItemWrathIgniter:item.wrathigniter": "minecraft:red_flower",
   "vq:tile.petroleum": "minecraft:red_flower",

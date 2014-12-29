@@ -23,24 +23,15 @@ public final class FetchFrame {
 		List<BTPlayer> src_plyrs = src_client.getPlayerList();
 		BTiVector iloc = null;
 		BTPlayer player = null;
-		for (Iterator<BTPlayer> itr = src_plyrs.iterator();itr.hasNext();) {
-			player = itr.next();
-			if (player.getName().contentEquals("globnobulous")) {
-				iloc = new BTiVector((int)player.location.getX(),
-						(int)player.location.getY(),
-						(int)player.location.getZ());
-				break;
-			}
-		}
-		if (iloc == null)
-			throw new RuntimeException("Could not find player!");
+		player = Translate.getPlayer(src_client.getPlayerList(),"globnobulous");
+		iloc = Translate.dloc2iloc(player.location);
 		// fetch frame around source user
-		int radius = 2;
+		int radius = 3;
 		int height = 1;
 		iloc.x -= radius;
 		iloc.y -= height;
 		iloc.z -= radius;
-		BTiVector isize = new BTiVector(radius*2,height*2+2,radius*2);
+		BTiVector isize = new BTiVector(radius*2+1,height*2+2,radius*2+1);
 		BTWorldFrame frame = src_client.getFrame(player.getWorldid(), iloc, isize);
 		binary.saveFrame(frame, "Direwolf.frame.bin");
 	}

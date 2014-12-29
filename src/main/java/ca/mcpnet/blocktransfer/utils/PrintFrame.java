@@ -38,33 +38,36 @@ import ca.mcpnet.blocktransfer.BlockTransferService;
 public class PrintFrame {
 
 	public static void main(String[] args) throws TException, IOException {
-		String prefix = "Direwolf";
-		// Load src item id map
-		Map<Integer, String> itemidmap = json.loadIntStringMap(prefix + ".ItemIdMap.json");
-		Map<Integer, String> blockidmap = json.loadIntStringMap(prefix + ".BlockIdMap.json");
+		System.out.println("Dst client connect...");
+		TFramedTransport dst_transport = new TFramedTransport(new TSocket("10.10.10.5",9090));
+		dst_transport.open();
+		BlockTransferService.Client dst_client = new BlockTransferService.Client(new TBinaryProtocol(dst_transport));
+		// Find dst user
+		BTPlayer dst_player = Translate.getPlayer(dst_client.getPlayerList(),"globnobulous");
+		// Load src block id map
+		Map<Integer, String> src_blkidmap = dst_client.getBlockIdMap();
+		
+		BTiVector iloc = Translate.dloc2iloc(dst_player.location);
+		// fetch frame around source user
+		int radius = 0;
+		int height = 1;
+		iloc.x -= radius;
+		iloc.y -= height;
+		iloc.z -= radius;
+		BTiVector isize = new BTiVector(radius*2+1,height*2+2,radius*2+1);
+		BTWorldFrame frame = dst_client.getFrame(dst_player.getWorldid(), iloc, isize);
 
-		// Fetch the frame
-		BTWorldFrame frame = binary.loadFrame(prefix + ".frame.bin");
-
-		// remap src blocks to dst blocks
-		for (Iterator<BTTileEntity> bttileitr = frame.tilelist.iterator(); 
-				bttileitr.hasNext();) {
-			BTTileEntity bttile = bttileitr.next();
-			NBTTagCompound nbt = CompressedStreamTools
-					.read(new DataInputStream(new ByteArrayInputStream(bttile
-							.getNbt())));
-			String id = nbt.getString("id");
-			if (id.contains("Chest")) {
-				System.out.println(nbt);
-				NBTTagList items = (NBTTagList) nbt.getTag("Items");
-				for (int i = 0; i < items.tagCount(); i++) {
-					NBTTagCompound itemstack = items.getCompoundTagAt(i);
-					int src_itemid = itemstack.getShort("id");
-					System.out.println("  "+itemidmap.get(src_itemid)+" "+itemstack);
+		DataInputStream is = new DataInputStream(new ByteArrayInputStream(frame.getBlockdata()));
+		// Dst blocks
+		for (int x = 0;x < frame.size.x;x++)
+			for (int y = 0;y < frame.size.y;y++) 
+				for (int z = 0;z < frame.size.z;z++)
+				{
+					int src_blkid = is.readShort();
+					int metadata = is.readByte();
+					if (src_blkid == 0)
+						continue;
+					System.out.println(x+","+y+","+z+" "+src_blkidmap.get(src_blkid));
 				}
-			} else {
-					System.out.println(nbt);
-			}
-		}
 	}
 }

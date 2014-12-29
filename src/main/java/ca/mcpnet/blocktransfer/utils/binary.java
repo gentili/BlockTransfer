@@ -1,10 +1,16 @@
 package ca.mcpnet.blocktransfer.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Map;
+
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -42,6 +48,14 @@ public final class binary {
 		getFrame_result getFrame_result = new getFrame_result();
 		getFrame_result.read(protocol);
 		return getFrame_result.success;
+	}
+
+	public static ByteBuffer nbt2ByteArray(NBTTagCompound newnbt)
+			throws IOException {
+		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+			CompressedStreamTools.write(newnbt, new DataOutputStream(bytearrayoutputstream));
+		ByteBuffer bytearray = ByteBuffer.wrap(bytearrayoutputstream.toByteArray());
+		return bytearray;
 	}
 
 }
